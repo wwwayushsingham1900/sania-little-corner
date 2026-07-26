@@ -1,1018 +1,1188 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="color-scheme" content="light dark">
-<title>for Sania 📖</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Quicksand:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    color-scheme: light dark;
-    --ink: #1B1420;
-    --ink-card: #251A2C;
-    --ink-card-2: #2E1F37;
-    --rose: #F0A8C4;
-    --rose-deep: #E36F9C;
-    --crimson: #7C2A3B;
-    --gold: #C9A66B;
-    --text-primary: #F3E9EE;
-    --text-secondary: #B9A6B8;
-    --text-muted: #8A7A8C;
-    --grad-1: rgba(240,168,196,0.10);
-    --grad-2: rgba(124,42,59,0.25);
-    --grad-3: rgba(201,166,107,0.08);
-  }
-  @media (prefers-color-scheme: light) {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>for Sania 📖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Quicksand:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
     :root {
-      --ink: #FAF3F5;
-      --ink-card: #FFFFFF;
-      --ink-card-2: #FDF7F9;
-      --rose: #D87B9F;
-      --rose-deep: #C15781;
-      --crimson: #8C374A;
-      --gold: #B89254;
-      --text-primary: #3A2A30;
-      --text-secondary: #6A5B60;
-      --text-muted: #9A8A92;
-      --grad-1: rgba(216,123,159,0.15);
-      --grad-2: rgba(140,55,74,0.10);
-      --grad-3: rgba(184,146,84,0.10);
+      color-scheme: light dark;
+      --ink: #1B1420;
+      --ink-card: #251A2C;
+      --ink-card-2: #2E1F37;
+      --rose: #F0A8C4;
+      --rose-deep: #E36F9C;
+      --crimson: #7C2A3B;
+      --gold: #C9A66B;
+      --text-primary: #F3E9EE;
+      --text-secondary: #B9A6B8;
+      --text-muted: #8A7A8C;
+      --grad-1: rgba(240, 168, 196, 0.10);
+      --grad-2: rgba(124, 42, 59, 0.25);
+      --grad-3: rgba(201, 166, 107, 0.08);
     }
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
-    min-height:100vh;
-    font-family:'Quicksand',sans-serif;
-    background:
-      radial-gradient(circle at 20% 5%, var(--grad-1) 0%, transparent 45%),
-      radial-gradient(circle at 85% 20%, var(--grad-2) 0%, transparent 45%),
-      radial-gradient(circle at 50% 95%, var(--grad-3) 0%, transparent 50%),
-      var(--ink);
-    color:var(--text-primary);
-    display:flex;
-    justify-content:center;
-    overflow-x:hidden;
-  }
-  .page{
-    width:100%;
-    max-width:480px;
-    min-height:100vh;
-    padding:2.2rem 1.4rem 3rem;
-    position:relative;
-  }
-  @media (min-width:600px){
-    .page{max-width:560px; padding:3rem 2rem 4rem;}
-  }
 
-  .float{
-    position:fixed;
-    pointer-events:none;
-    opacity:0.35;
-    z-index:0;
-    animation: drift linear infinite;
-    color:var(--rose);
-  }
-  @keyframes drift{
-    0%{ transform: translateY(0) rotate(0deg); }
-    100%{ transform: translateY(120vh) rotate(20deg); }
-  }
-  .music-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: var(--ink-card-2);
-    border: 1px solid var(--rose);
-    color: var(--rose);
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 100;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-    transition: transform 0.2s;
-  }
-  .music-btn:active { transform: scale(0.9); }
-  .music-btn.playing { color: var(--gold); border-color: var(--gold); }
-  
-  .petal-trail {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    font-size: 0.8rem;
-    animation: trailFade 1.2s forwards;
-  }
-  @keyframes trailFade {
-    0% { opacity: 0.8; transform: translateY(0) scale(1) rotate(0deg); }
-    100% { opacity: 0; transform: translateY(30px) scale(0.5) rotate(90deg); }
-  }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --ink: #FAF3F5;
+        --ink-card: #FFFFFF;
+        --ink-card-2: #FDF7F9;
+        --rose: #D87B9F;
+        --rose-deep: #C15781;
+        --crimson: #8C374A;
+        --gold: #B89254;
+        --text-primary: #3A2A30;
+        --text-secondary: #6A5B60;
+        --text-muted: #9A8A92;
+        --grad-1: rgba(216, 123, 159, 0.15);
+        --grad-2: rgba(140, 55, 74, 0.10);
+        --grad-3: rgba(184, 146, 84, 0.10);
+      }
+    }
 
-  .hero{position:relative; z-index:1; text-align:center; padding-top:1rem;}
-  .eyebrow{
-    font-size:0.78rem;
-    letter-spacing:0.16em;
-    color:var(--gold);
-    text-transform:uppercase;
-    margin:0 0 0.7rem;
-  }
-  h1.title{
-    font-family:'Playfair Display',serif;
-    font-weight:700;
-    font-size:2.4rem;
-    line-height:1.2;
-    margin:0 0 0.8rem;
-    color:var(--text-primary);
-  }
-  .title .accent{color:var(--rose);}
-  .subtitle{
-    font-size:1rem;
-    color:var(--text-secondary);
-    line-height:1.65;
-    max-width:340px;
-    margin:0 auto;
-  }
-  .divider{
-    width:60px;
-    height:1px;
-    background:var(--gold);
-    margin:1.6rem auto;
-    opacity:0.5;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .card{
-    position:relative;
-    z-index:1;
-    background:var(--ink-card);
-    border:1px solid rgba(240,168,196,0.14);
-    border-radius:18px;
-    padding:1.6rem 1.4rem;
-    margin-top:1.4rem;
-    box-shadow:0 14px 30px -18px rgba(0,0,0,0.6);
-  }
-  .card .chapter-tag{
-    font-family:'Quicksand',sans-serif;
-    font-size:0.7rem;
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    color:var(--gold);
-    margin:0 0 0.5rem;
-  }
-  .card h2{
-    font-family:'Playfair Display',serif;
-    font-weight:600;
-    font-size:1.35rem;
-    margin:0 0 0.5rem;
-    color:var(--text-primary);
-  }
-  .card p.lead{
-    font-size:0.94rem;
-    color:var(--text-secondary);
-    margin:0 0 1.1rem;
-    line-height:1.6;
-  }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
-  .moods{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:0.6rem;
-  }
-  .mood-btn{
-    font-family:'Quicksand',sans-serif;
-    font-weight:600;
-    font-size:0.9rem;
-    padding:0.85rem 0.6rem;
-    border-radius:12px;
-    border:1px solid rgba(240,168,196,0.2);
-    background:var(--ink-card-2);
-    color:var(--text-primary);
-    cursor:pointer;
-    transition:transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .mood-btn:active{transform:scale(0.96);}
-  .mood-btn.selected{background:var(--rose-deep); color:#fff; border-color:var(--rose-deep);}
+    body {
+      min-height: 100vh;
+      font-family: 'Quicksand', sans-serif;
+      background:
+        radial-gradient(circle at 20% 5%, var(--grad-1) 0%, transparent 45%),
+        radial-gradient(circle at 85% 20%, var(--grad-2) 0%, transparent 45%),
+        radial-gradient(circle at 50% 95%, var(--grad-3) 0%, transparent 50%),
+        var(--ink);
+      color: var(--text-primary);
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+    }
 
-  .mood-response{
-    margin-top:1rem;
-    padding:1rem 1.1rem;
-    background:var(--ink-card-2);
-    border-left:2px solid var(--gold);
-    border-radius:8px;
-    font-size:0.94rem;
-    line-height:1.65;
-    color:var(--text-primary);
-    display:none;
-    font-family:'Playfair Display',serif;
-    font-style:italic;
-  }
-  .mood-response.show{display:block; animation:pop 0.3s ease;}
-  @keyframes pop{
-    from{opacity:0; transform:translateY(6px);}
-    to{opacity:1; transform:translateY(0);}
-  }
+    .page {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      padding: 2.2rem 1.4rem 3rem;
+      position: relative;
+    }
 
-  textarea{
-    width:100%;
-    margin-top:1rem;
-    border-radius:12px;
-    border:1px solid rgba(240,168,196,0.2);
-    background:var(--ink-card-2);
-    padding:0.8rem 1rem;
-    font-family:'Quicksand',sans-serif;
-    font-size:0.94rem;
-    color:var(--text-primary);
-    resize:none;
-    min-height:70px;
-  }
-  textarea::placeholder{color:var(--text-muted);}
-  textarea:focus{outline:1px solid var(--rose); outline-offset:1px;}
-  .hint{
-    font-size:0.78rem;
-    color:var(--text-muted);
-    margin-top:0.5rem;
-  }
+    @media (min-width:600px) {
+      .page {
+        max-width: 560px;
+        padding: 3rem 2rem 4rem;
+      }
+    }
 
-  /* genre slider */
-  .weather-display{
-    text-align:center;
-    font-size:2.6rem;
-    margin:0.4rem 0 0.2rem;
-  }
-  .weather-label{
-    text-align:center;
-    font-size:0.94rem;
-    font-weight:600;
-    font-family:'Playfair Display',serif;
-    color:var(--rose);
-    margin-bottom:0.9rem;
-  }
-  input[type="range"]{
-    width:100%;
-    -webkit-appearance:none;
-    appearance:none;
-    height:6px;
-    border-radius:6px;
-    background:linear-gradient(90deg, var(--crimson), var(--rose-deep), var(--rose), var(--gold));
-    outline:none;
-  }
-  input[type="range"]::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    width:22px;
-    height:22px;
-    border-radius:50%;
-    background:var(--ink);
-    border:3px solid var(--gold);
-    cursor:pointer;
-  }
-  input[type="range"]::-moz-range-thumb{
-    width:22px;
-    height:22px;
-    border-radius:50%;
-    background:var(--ink);
-    border:3px solid var(--gold);
-    cursor:pointer;
-  }
+    .float {
+      position: fixed;
+      pointer-events: none;
+      opacity: 0.35;
+      z-index: 0;
+      animation: drift linear infinite;
+      color: var(--rose);
+    }
 
-  /* trope reveal card */
-  .trope-btn{
-    width:100%;
-    margin-top:0.3rem;
-    font-family:'Playfair Display',serif;
-    font-weight:600;
-    font-size:1.02rem;
-    padding:0.95rem;
-    border:1px solid var(--rose-deep);
-    border-radius:12px;
-    background:transparent;
-    color:var(--rose);
-    cursor:pointer;
-    transition:background 0.2s ease, transform 0.15s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .trope-btn:active{transform:scale(0.98);}
-  .trope-btn:hover{background:rgba(227,111,156,0.1);}
+    @keyframes drift {
+      0% {
+        transform: translateY(0) rotate(0deg);
+      }
 
-  /* 3D page-turn book */
-  .book-wrap{
-    margin-top:0.3rem;
-    margin-bottom:1.1rem;
-    perspective:1600px;
-    display:none;
-  }
-  .book-wrap.show{
-    display:block;
-    animation:pop 0.5s ease;
-  }
-  .book{
-    position:relative;
-    display:flex;
-    height:280px;
-    border-radius:10px;
-    box-shadow:0 20px 40px -18px rgba(0,0,0,0.6);
-  }
-  .book-spine{
-    position:absolute;
-    left:50%;
-    top:4%;
-    bottom:4%;
-    width:2px;
-    background:rgba(0,0,0,0.25);
-    transform:translateX(-1px);
-    z-index:3;
-  }
-  .book-page-left{
-    flex:1;
-    background-color: #F3E9DC;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
-    background-size: cover;
-    border-radius:8px 0 0 8px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:inset -10px 0 16px -10px rgba(0,0,0,0.2);
-  }
-  .book-page-left span{
-    font-family:'Playfair Display',serif;
-    font-size:2.6rem;
-    color:var(--crimson);
-    opacity:0.55;
-  }
-  .book-page-right-wrap{
-    flex:1;
-    position:relative;
-  }
-  .book-page-under{
-    position:absolute;
-    inset:0;
-    background-color: #F3E9DC;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
-    background-size: cover;
-    border-radius:0 8px 8px 0;
-    padding:1rem 0.5rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-  }
-  .book-page-turn{
-    position:absolute;
-    inset:0;
-    transform-style:preserve-3d;
-    transform-origin:0% 50%;
-    transform:rotateY(0deg);
-    transition:transform 0.9s cubic-bezier(.45,.05,.35,1);
-  }
-  .book-page-turn.notransition{transition:none;}
-  .book-face{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    border-radius:0 8px 8px 0;
-    padding:1rem 0.5rem;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    background-color: #F3E9DC;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
-    background-size: cover;
-  }
-  .book-face.back{
-    transform:rotateY(180deg);
-    background-color: #EDE1D2;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23EDE1D2'/%3E%3C/svg%3E");
-    background-size: cover;
-  }
-  .poem-text{
-    font-family:'Playfair Display',serif;
-    font-style:italic;
-    font-size:0.9rem;
-    line-height:1.75;
-    color:#3A2A30;
-    -webkit-text-fill-color: #3A2A30;
-    white-space:pre-line;
-    margin:0;
-  }
-  .again-link{
-    display:block;
-    text-align:center;
-    margin-top:0.8rem;
-    font-size:0.83rem;
-    color:var(--text-muted);
-    text-decoration:underline;
-    cursor:pointer;
-    background:none;
-    border:none;
-    font-family:'Quicksand',sans-serif;
-  }
+      100% {
+        transform: translateY(120vh) rotate(20deg);
+      }
+    }
 
-  /* bookshelf jar */
-  .jar-input-row{
-    display:flex;
-    gap:0.5rem;
-    margin-top:0.9rem;
-  }
-  .jar-input-row input{
-    flex:1;
-    border-radius:10px;
-    border:1px solid rgba(240,168,196,0.2);
-    background:var(--ink-card-2);
-    padding:0.7rem 0.9rem;
-    font-family:'Quicksand',sans-serif;
-    font-size:0.9rem;
-    color:var(--text-primary);
-  }
-  .jar-input-row input::placeholder{color:var(--text-muted);}
-  .jar-input-row input:focus{outline:1px solid var(--rose); outline-offset:1px;}
-  .jar-add-btn{
-    border:none;
-    background:var(--rose-deep);
-    color:#fff;
-    border-radius:10px;
-    padding:0 1.1rem;
-    font-size:1.2rem;
-    cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .jar-list{
-    margin-top:0.9rem;
-    display:flex;
-    flex-direction:column;
-    gap:0.5rem;
-  }
-  .jar-item{
-    background:var(--ink-card-2);
-    border-left:2px solid var(--rose);
-    border-radius:6px;
-    padding:0.65rem 0.9rem;
-    font-size:0.88rem;
-    color:var(--text-primary);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:0.6rem;
-    animation:pop 0.25s ease;
-  }
-  .jar-item button{
-    border:none;
-    background:none;
-    color:var(--text-muted);
-    font-size:0.95rem;
-    cursor:pointer;
-    line-height:1;
-  }
-  .jar-empty{
-    font-size:0.85rem;
-    color:var(--text-muted);
-    text-align:center;
-    margin-top:0.7rem;
-  }
+    .music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: var(--ink-card-2);
+      border: 1px solid var(--rose);
+      color: var(--rose);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s;
+    }
 
-  /* pick a page flip cards */
-  .flip-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-    gap:0.6rem;
-    margin-top:0.4rem;
-  }
-  .flip-card{
-    perspective:600px;
-    height:92px;
-  }
-  .flip-inner{
-    position:relative;
-    width:100%;
-    height:100%;
-    transition:transform 0.55s cubic-bezier(.4,.2,.2,1);
-    transform-style:preserve-3d;
-  }
-  .flip-card.flipped .flip-inner{transform:rotateY(180deg);}
-  .flip-front,.flip-back{
-    position:absolute;
-    inset:0;
-    backface-visibility:hidden;
-    border-radius:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:0.4rem;
-  }
-  .flip-front{
-    background:var(--ink-card-2);
-    border:1px solid var(--gold);
-    font-size:1.5rem;
-    cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .flip-back{
-    background:var(--rose-deep);
-    color:#fff;
-    font-size:0.7rem;
-    line-height:1.35;
-    font-weight:600;
-    font-family:'Quicksand',sans-serif;
-    transform:rotateY(180deg);
-  }
+    .music-btn:active {
+      transform: scale(0.9);
+    }
 
-  footer{
-    position:relative;
-    z-index:1;
-    text-align:center;
-    margin-top:2rem;
-    font-size:0.82rem;
-    color:var(--text-muted);
-    font-family:'Playfair Display',serif;
-    font-style:italic;
-  }
+    .music-btn.playing {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
 
-  @media (prefers-reduced-motion: reduce){
-    .float{animation:none; opacity:0.2;}
-  }
+    .petal-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      font-size: 0.8rem;
+      animation: trailFade 1.2s forwards;
+    }
 
-  /* landing cover */
-  #cover{
-    position:relative;
-    z-index:1;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:2rem 1.6rem;
-  }
-  .cover-eyebrow{
-    font-size:0.78rem;
-    letter-spacing:0.2em;
-    color:var(--gold);
-    text-transform:uppercase;
-    margin:0 0 1rem;
-  }
-  .cover-title{
-    font-family:'Playfair Display',serif;
-    font-weight:700;
-    font-size:2.6rem;
-    line-height:1.2;
-    margin:0 0 1rem;
-    color:var(--text-primary);
-  }
-  .cover-title .accent{color:var(--rose);}
-  .cover-sub{
-    font-size:1rem;
-    color:var(--text-secondary);
-    line-height:1.65;
-    max-width:300px;
-    margin:0 0 2.2rem;
-  }
-  .cover-btn{
-    font-family:'Playfair Display',serif;
-    font-weight:600;
-    font-size:1.05rem;
-    padding:0.9rem 2rem;
-    border:1px solid var(--gold);
-    border-radius:30px;
-    background:transparent;
-    color:var(--gold);
-    cursor:pointer;
-    transition:background 0.2s ease, transform 0.15s ease;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .cover-btn:hover{background:rgba(201,166,107,0.1);}
-  .cover-btn:active{transform:scale(0.97);}
-  #contentWrap{display:none;}
-  #contentWrap.show{display:block; animation:pop 0.4s ease;}
-</style>
+    @keyframes trailFade {
+      0% {
+        opacity: 0.8;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.5) rotate(90deg);
+      }
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding-top: 1rem;
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin: 0 0 0.7rem;
+    }
+
+    h1.title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2.4rem;
+      line-height: 1.2;
+      margin: 0 0 0.8rem;
+      color: var(--text-primary);
+    }
+
+    .title .accent {
+      color: var(--rose);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.6rem auto;
+      opacity: 0.5;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--ink-card);
+      border: 1px solid rgba(240, 168, 196, 0.14);
+      border-radius: 18px;
+      padding: 1.6rem 1.4rem;
+      margin-top: 1.4rem;
+      box-shadow: 0 14px 30px -18px rgba(0, 0, 0, 0.6);
+    }
+
+    .card .chapter-tag {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 0 0 0.5rem;
+    }
+
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.35rem;
+      margin: 0 0 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .card p.lead {
+      font-size: 0.94rem;
+      color: var(--text-secondary);
+      margin: 0 0 1.1rem;
+      line-height: 1.6;
+    }
+
+    .moods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+
+    .mood-btn {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.85rem 0.6rem;
+      border-radius: 12px;
+      border: 1px solid rgba(240, 168, 196, 0.2);
+      background: var(--ink-card-2);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .mood-btn:active {
+      transform: scale(0.96);
+    }
+
+    .mood-btn.selected {
+      background: var(--rose-deep);
+      color: #fff;
+      border-color: var(--rose-deep);
+    }
+
+    .mood-response {
+      margin-top: 1rem;
+      padding: 1rem 1.1rem;
+      background: var(--ink-card-2);
+      border-left: 2px solid var(--gold);
+      border-radius: 8px;
+      font-size: 0.94rem;
+      line-height: 1.65;
+      color: var(--text-primary);
+      display: none;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+
+    .mood-response.show {
+      display: block;
+      animation: pop 0.3s ease;
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(240, 168, 196, 0.2);
+      background: var(--ink-card-2);
+      padding: 0.8rem 1rem;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.94rem;
+      color: var(--text-primary);
+      resize: none;
+      min-height: 70px;
+    }
+
+    textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    textarea:focus {
+      outline: 1px solid var(--rose);
+      outline-offset: 1px;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* genre slider */
+    .weather-display {
+      text-align: center;
+      font-size: 2.6rem;
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .weather-label {
+      text-align: center;
+      font-size: 0.94rem;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+      color: var(--rose);
+      margin-bottom: 0.9rem;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 6px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--crimson), var(--rose-deep), var(--rose), var(--gold));
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: 3px solid var(--gold);
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: 3px solid var(--gold);
+      cursor: pointer;
+    }
+
+    /* trope reveal card */
+    .trope-btn {
+      width: 100%;
+      margin-top: 0.3rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.02rem;
+      padding: 0.95rem;
+      border: 1px solid var(--rose-deep);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--rose);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .trope-btn:active {
+      transform: scale(0.98);
+    }
+
+    .trope-btn:hover {
+      background: rgba(227, 111, 156, 0.1);
+    }
+
+    /* 3D page-turn book */
+    .book-wrap {
+      margin-top: 0.3rem;
+      margin-bottom: 1.1rem;
+      perspective: 1600px;
+      display: none;
+    }
+
+    .book-wrap.show {
+      display: block;
+      animation: pop 0.5s ease;
+    }
+
+    .book {
+      position: relative;
+      display: flex;
+      height: 280px;
+      border-radius: 10px;
+      box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.6);
+    }
+
+    .book-spine {
+      position: absolute;
+      left: 50%;
+      top: 4%;
+      bottom: 4%;
+      width: 2px;
+      background: rgba(0, 0, 0, 0.25);
+      transform: translateX(-1px);
+      z-index: 3;
+    }
+
+    .book-page-left {
+      flex: 1;
+      background-color: #F3E9DC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
+      background-size: cover;
+      border-radius: 8px 0 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset -10px 0 16px -10px rgba(0, 0, 0, 0.2);
+    }
+
+    .book-page-left span {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem;
+      color: var(--crimson);
+      opacity: 0.55;
+    }
+
+    .book-page-right-wrap {
+      flex: 1;
+      position: relative;
+    }
+
+    .book-page-under {
+      position: absolute;
+      inset: 0;
+      background-color: #F3E9DC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
+      background-size: cover;
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .book-page-turn {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      transform-origin: 0% 50%;
+      transform: rotateY(0deg);
+      transition: transform 0.9s cubic-bezier(.45, .05, .35, 1);
+    }
+
+    .book-page-turn.notransition {
+      transition: none;
+    }
+
+    .book-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 0 8px 8px 0;
+      padding: 1rem 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: #F3E9DC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    .book-face.back {
+      transform: rotateY(180deg);
+      background-color: #EDE1D2;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23EDE1D2'/%3E%3C/svg%3E");
+      background-size: cover;
+    }
+
+    .poem-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: #3A2A30;
+      -webkit-text-fill-color: #3A2A30;
+      white-space: pre-line;
+      margin: 0;
+    }
+
+    .again-link {
+      display: block;
+      text-align: center;
+      margin-top: 0.8rem;
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    /* bookshelf jar */
+    .jar-input-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.9rem;
+    }
+
+    .jar-input-row input {
+      flex: 1;
+      border-radius: 10px;
+      border: 1px solid rgba(240, 168, 196, 0.2);
+      background: var(--ink-card-2);
+      padding: 0.7rem 0.9rem;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+    }
+
+    .jar-input-row input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .jar-input-row input:focus {
+      outline: 1px solid var(--rose);
+      outline-offset: 1px;
+    }
+
+    .jar-add-btn {
+      border: none;
+      background: var(--rose-deep);
+      color: #fff;
+      border-radius: 10px;
+      padding: 0 1.1rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .jar-list {
+      margin-top: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .jar-item {
+      background: var(--ink-card-2);
+      border-left: 2px solid var(--rose);
+      border-radius: 6px;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.88rem;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      animation: pop 0.25s ease;
+    }
+
+    .jar-item button {
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .jar-empty {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 0.7rem;
+    }
+
+    /* pick a page flip cards */
+    .flip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.6rem;
+      margin-top: 0.4rem;
+    }
+
+    .flip-card {
+      perspective: 600px;
+      height: 92px;
+    }
+
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.55s cubic-bezier(.4, .2, .2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front,
+    .flip-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.4rem;
+    }
+
+    .flip-front {
+      background: var(--ink-card-2);
+      border: 1px solid var(--gold);
+      font-size: 1.5rem;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .flip-back {
+      background: var(--rose-deep);
+      color: #fff;
+      font-size: 0.7rem;
+      line-height: 1.35;
+      font-weight: 600;
+      font-family: 'Quicksand', sans-serif;
+      transform: rotateY(180deg);
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .float {
+        animation: none;
+        opacity: 0.2;
+      }
+    }
+
+    /* landing cover */
+    #cover {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.6rem;
+    }
+
+    .cover-eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin: 0 0 1rem;
+    }
+
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2.6rem;
+      line-height: 1.2;
+      margin: 0 0 1rem;
+      color: var(--text-primary);
+    }
+
+    .cover-title .accent {
+      color: var(--rose);
+    }
+
+    .cover-sub {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      max-width: 300px;
+      margin: 0 0 2.2rem;
+    }
+
+    .cover-btn {
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      padding: 0.9rem 2rem;
+      border: 1px solid var(--gold);
+      border-radius: 30px;
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .cover-btn:hover {
+      background: rgba(201, 166, 107, 0.1);
+    }
+
+    .cover-btn:active {
+      transform: scale(0.97);
+    }
+
+    #contentWrap {
+      display: none;
+    }
+
+    #contentWrap.show {
+      display: block;
+      animation: pop 0.4s ease;
+    }
+  </style>
 </head>
+
 <body>
-<audio id="bgMusic" loop src="/music.mp3"></audio>
-<button id="musicBtn" class="music-btn">♫</button>
+  <audio id="bgMusic" loop src="/music.mp3"></audio>
+  <button id="musicBtn" class="music-btn">♫</button>
 
-<div id="floats"></div>
+  <div id="floats"></div>
 
-<div id="cover">
-  <p class="cover-eyebrow">a little something</p>
-  <h1 class="cover-title">for <span class="accent">Sania</span></h1>
-  <p class="cover-sub">just a small page to check in on you. open it whenever you've got a minute.</p>
-  <button class="cover-btn" id="openBtn">open</button>
-</div>
-
-<div id="contentWrap">
-<div class="page">
-
-  <div class="hero">
-    <p class="eyebrow">chapter one</p>
-    <h1 class="title">for <span class="accent">Sania</span></h1>
-    <p class="subtitle">a little page, written like the stories you love, just to check in on the plot of your day.</p>
-    <div class="divider"></div>
+  <div id="cover">
+    <p class="cover-eyebrow">a little something</p>
+    <h1 class="cover-title">for <span class="accent">Sania</span></h1>
+    <p class="cover-sub">just a small page to check in on you. open it whenever you've got a minute.</p>
+    <button class="cover-btn" id="openBtn">open</button>
   </div>
 
-  <div class="card">
-    <p class="chapter-tag">check in</p>
-    <h2>how are you feeling today?</h2>
-    <p class="lead">be honest, whatever it is is okay.</p>
-    <div class="moods">
-      <button class="mood-btn" data-mood="tired">tired</button>
-      <button class="mood-btn" data-mood="stressed">pretty stressed</button>
-      <button class="mood-btn" data-mood="down">kind of down</button>
-      <button class="mood-btn" data-mood="okay">actually okay</button>
-    </div>
-    <div class="mood-response" id="moodResponse"></div>
-  </div>
+  <div id="contentWrap">
+    <div class="page">
 
-  <div class="card">
-    <p class="chapter-tag">your day</p>
-    <h2>how's today going?</h2>
-    <p class="lead">drag it to wherever today actually is.</p>
-    <div class="weather-display" id="weatherEmoji">📖</div>
-    <p class="weather-label" id="weatherLabel">slow burn subplot</p>
-    <input type="range" min="0" max="100" value="50" id="weatherSlider">
-  </div>
+      <div class="hero">
+        <p class="eyebrow">chapter one</p>
+        <h1 class="title">for <span class="accent">Sania</span></h1>
+        <p class="subtitle">a little page, written like the stories you love, just to check in on the plot of your day.
+        </p>
+        <div class="divider"></div>
+      </div>
 
-  <div class="card">
-    <p class="chapter-tag">a small break</p>
-    <h2>take a second to breathe</h2>
-    <p class="lead">tap below, then turn the page whenever you're ready for the next one.</p>
-    <div class="book-wrap" id="bookWrap">
-      <div class="book">
-        <div class="book-spine"></div>
-        <div class="book-page-left"><span>❦</span></div>
-        <div class="book-page-right-wrap">
-          <div class="book-page-under"><p class="poem-text" id="poemUnder"></p></div>
-          <div class="book-page-turn" id="pageTurn">
-            <div class="book-face front"><p class="poem-text" id="poemFront"></p></div>
-            <div class="book-face back"><p class="poem-text" id="poemBack"></p></div>
+      <div class="card">
+        <p class="chapter-tag">check in</p>
+        <h2>how are you feeling today?</h2>
+        <p class="lead">be honest, whatever it is is okay.</p>
+        <div class="moods">
+          <button class="mood-btn" data-mood="tired">tired</button>
+          <button class="mood-btn" data-mood="stressed">pretty stressed</button>
+          <button class="mood-btn" data-mood="down">kind of down</button>
+          <button class="mood-btn" data-mood="okay">actually okay</button>
+        </div>
+        <div class="mood-response" id="moodResponse"></div>
+      </div>
+
+      <div class="card">
+        <p class="chapter-tag">your day</p>
+        <h2>how's today going?</h2>
+        <p class="lead">drag it to wherever today actually is.</p>
+        <div class="weather-display" id="weatherEmoji">📖</div>
+        <p class="weather-label" id="weatherLabel">slow burn subplot</p>
+        <input type="range" min="0" max="100" value="50" id="weatherSlider">
+      </div>
+
+      <div class="card">
+        <p class="chapter-tag">a small break</p>
+        <h2>take a second to breathe</h2>
+        <p class="lead">tap below, then turn the page whenever you're ready for the next one.</p>
+        <div class="book-wrap" id="bookWrap">
+          <div class="book">
+            <div class="book-spine"></div>
+            <div class="book-page-left"><span>❦</span></div>
+            <div class="book-page-right-wrap">
+              <div class="book-page-under">
+                <p class="poem-text" id="poemUnder"></p>
+              </div>
+              <div class="book-page-turn" id="pageTurn">
+                <div class="book-face front">
+                  <p class="poem-text" id="poemFront"></p>
+                </div>
+                <div class="book-face back">
+                  <p class="poem-text" id="poemBack"></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+        <button class="trope-btn" id="tropeBtn">open a little pause</button>
       </div>
+
+      <div class="card">
+        <p class="chapter-tag">say something</p>
+        <h2>want to write something down?</h2>
+        <p class="lead">you don't have to explain everything, one line is enough.</p>
+        <textarea id="thoughtBox" placeholder="what's on your mind, even a little bit..."></textarea>
+        <p class="hint">this stays right here, just between you and the page. tell me the rest whenever you're ready.
+        </p>
+        <p class="hint" style="color:var(--rose); margin-top: 0.3rem;">Your thoughts are automatically saved 2 seconds
+          after you stop typing.</p>
+      </div>
+
+      <div class="card">
+        <p class="chapter-tag">good things</p>
+        <h2>your good things list <span id="flowerPlant" style="font-size: 1.2rem;">🌱</span></h2>
+        <p class="lead">add anything good, tiny or huge. it stays saved on your phone for next time.</p>
+        <div class="jar-input-row">
+          <input type="text" id="jarInput" placeholder="today, something good was...">
+          <button class="jar-add-btn" id="jarAddBtn">+</button>
+        </div>
+        <div class="jar-list" id="jarList"></div>
+        <p class="jar-empty" id="jarEmpty">the shelf is empty, add the first good thing 📖</p>
+      </div>
+
+      <div class="card" style="text-align:center;">
+        <p class="chapter-tag">a tiny reminder</p>
+        <h2 id="reminderTitle">you are doing great</h2>
+        <p class="lead" id="reminderText">even on the days when it doesn't feel like it. take your time, there is no
+          rush.</p>
+      </div>
+
+      <div class="card" id="letterCard" style="text-align:center; cursor:pointer;">
+        <p class="chapter-tag">a secret</p>
+        <h2>a little secret just for you</h2>
+        <div style="font-size: 2.5rem; margin: 0.5rem 0;" id="envelopeIcon">✉️</div>
+        <p class="lead">tap to open.</p>
+        <div id="letterContent"
+          style="display:none; text-align:left; margin-top:1.5rem; padding: 1.5rem; border: 2px solid var(--rose); border-radius: 12px; background: rgba(240,168,196,0.05); font-family: 'Playfair Display', serif; font-style: italic; line-height: 1.8;">
+          Dear Polar Bear 🐻‍❄️,<br><br>
+          I know some days can feel overwhelming, but please promise me you will never feel like you have to carry it
+          all alone. No matter what situation you find yourself in, whether you're at your highest or your lowest, I am
+          always going to be right here by your side. I built this little corner of the internet just for you, as a
+          permanent reminder that you are deeply cared for, and I will always have your back.<br><br>
+          Always,<br>
+          Ayush
+        </div>
+      </div>
+
+      <footer>
+        to be continued, always
+      </footer>
+
     </div>
-    <button class="trope-btn" id="tropeBtn">open a little pause</button>
   </div>
 
-  <div class="card">
-    <p class="chapter-tag">say something</p>
-    <h2>want to write something down?</h2>
-    <p class="lead">you don't have to explain everything, one line is enough.</p>
-    <textarea id="thoughtBox" placeholder="what's on your mind, even a little bit..."></textarea>
-    <p class="hint">this stays right here, just between you and the page. tell me the rest whenever you're ready.</p>
-    <p class="hint" style="color:var(--rose); margin-top: 0.3rem;">Your thoughts are automatically saved 2 seconds after you stop typing.</p>
-  </div>
-
-  <div class="card">
-    <p class="chapter-tag">good things</p>
-    <h2>your good things list <span id="flowerPlant" style="font-size: 1.2rem;">🌱</span></h2>
-    <p class="lead">add anything good, tiny or huge. it stays saved on your phone for next time.</p>
-    <div class="jar-input-row">
-      <input type="text" id="jarInput" placeholder="today, something good was...">
-      <button class="jar-add-btn" id="jarAddBtn">+</button>
-    </div>
-    <div class="jar-list" id="jarList"></div>
-    <p class="jar-empty" id="jarEmpty">the shelf is empty, add the first good thing 📖</p>
-  </div>
-
-  <div class="card" style="text-align:center;">
-    <p class="chapter-tag">a tiny reminder</p>
-    <h2 id="reminderTitle">you are doing great</h2>
-    <p class="lead" id="reminderText">even on the days when it doesn't feel like it. take your time, there is no rush.</p>
-  </div>
-
-  <div class="card" id="letterCard" style="text-align:center; cursor:pointer;">
-    <p class="chapter-tag">a secret</p>
-    <h2>a little secret just for you</h2>
-    <div style="font-size: 2.5rem; margin: 0.5rem 0;" id="envelopeIcon">✉️</div>
-    <p class="lead">tap to open.</p>
-    <div id="letterContent" style="display:none; text-align:left; margin-top:1.5rem; padding: 1.5rem; border: 2px solid var(--rose); border-radius: 12px; background: rgba(240,168,196,0.05); font-family: 'Playfair Display', serif; font-style: italic; line-height: 1.8;">
-      Dear Sania,<br><br>
-      I know some days can feel overwhelming, but please promise me you will never feel like you have to carry it all alone. No matter what situation you find yourself in, whether you're at your highest or your lowest, I am always going to be right here by your side. I built this little corner of the internet just for you, as a permanent reminder that you are deeply cared for, and I will always have your back.<br><br>
-      Always,<br>
-      Ayush
-    </div>
-  </div>
-
-  <footer>
-    to be continued, always
-  </footer>
-
-</div>
-</div>
-
-<script>
-  // Tracking Setup
-  const getSessionId = () => {
-    let sid = sessionStorage.getItem('sania_session_id');
-    if (!sid) {
-      sid = (crypto.randomUUID && crypto.randomUUID()) || Math.random().toString(36).substring(2) + Date.now().toString(36);
-      sessionStorage.setItem('sania_session_id', sid);
-    }
-    return sid;
-  };
-  const SESSION_ID = getSessionId();
-  let eventQueue = [];
-  let isSending = false;
-
-  function trackEvent(eventName, data = {}) {
-    const event = {
-      session_id: SESSION_ID,
-      event_name: eventName,
-      data: data,
-      timestamp: Date.now()
+  <script>
+    // Tracking Setup
+    const getSessionId = () => {
+      let sid = sessionStorage.getItem('sania_session_id');
+      if (!sid) {
+        sid = (crypto.randomUUID && crypto.randomUUID()) || Math.random().toString(36).substring(2) + Date.now().toString(36);
+        sessionStorage.setItem('sania_session_id', sid);
+      }
+      return sid;
     };
-    eventQueue.push(event);
-    processQueue();
-  }
+    const SESSION_ID = getSessionId();
+    let eventQueue = [];
+    let isSending = false;
 
-  async function processQueue() {
-    if (isSending || eventQueue.length === 0) return;
-    isSending = true;
-    const eventsToSend = [...eventQueue];
-    try {
-      await fetch('/api/events', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventsToSend[0])
-      });
-      eventQueue.shift();
-    } catch (err) {
-      console.error('Failed to send events', err);
-    } finally {
-      isSending = false;
-      if (eventQueue.length > 0) setTimeout(processQueue, 2000);
+    function trackEvent(eventName, data = {}) {
+      const event = {
+        session_id: SESSION_ID,
+        event_name: eventName,
+        data: data,
+        timestamp: Date.now()
+      };
+      eventQueue.push(event);
+      processQueue();
     }
-  }
 
-  trackEvent('page_loaded', { url: window.location.href });
-  window.addEventListener('beforeunload', () => trackEvent('session_end'));
-
-  const floatsContainer = document.getElementById('floats');
-  const symbols = ['🌻', '🪷', '🌹', '💐'];
-  const floatCount = 15;
-  for(let i=0;i<floatCount;i++){
-    const el = document.createElement('div');
-    el.className = 'float';
-    el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-    const size = 12 + Math.random()*18;
-    el.style.fontSize = size + 'px';
-    el.style.left = Math.random()*100 + 'vw';
-    el.style.top = (-10 - Math.random()*20) + 'vh';
-    const duration = 16 + Math.random()*14;
-    el.style.animationDuration = duration + 's';
-    el.style.animationDelay = (-Math.random()*duration) + 's';
-    floatsContainer.appendChild(el);
-  }
-
-  const bgMusic = document.getElementById('bgMusic');
-  const musicBtn = document.getElementById('musicBtn');
-  
-  musicBtn.addEventListener('click', () => {
-    if (bgMusic.paused) {
-      bgMusic.play();
-      musicBtn.classList.add('playing');
-    } else {
-      bgMusic.pause();
-      musicBtn.classList.remove('playing');
+    async function processQueue() {
+      if (isSending || eventQueue.length === 0) return;
+      isSending = true;
+      const eventsToSend = [...eventQueue];
+      try {
+        await fetch('/api/events', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventsToSend[0])
+        });
+        eventQueue.shift();
+      } catch (err) {
+        console.error('Failed to send events', err);
+      } finally {
+        isSending = false;
+        if (eventQueue.length > 0) setTimeout(processQueue, 2000);
+      }
     }
-  });
 
-  const cover = document.getElementById('cover');
-  const contentWrap = document.getElementById('contentWrap');
-  const openBtn = document.getElementById('openBtn');
-  openBtn.addEventListener('click', ()=>{
-    trackEvent('cover_opened');
-    cover.style.display = 'none';
-    contentWrap.classList.add('show');
-    contentWrap.scrollIntoView({behavior:'smooth', block:'start'});
-    
-    musicBtn.style.display = 'flex';
-    bgMusic.volume = 0.3;
-    bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(e => console.log('Audio blocked', e));
-  });
+    trackEvent('page_loaded', { url: window.location.href });
+    window.addEventListener('beforeunload', () => trackEvent('session_end'));
 
-  const moodMessages = {
-    tired: "slow chapters exist so the fast ones hit harder. it's okay to just sit in this one for a while.",
-    stressed: "every thriller has a chapter where it all feels like too much right before it clicks into place. you're not stuck, you're just mid-scene.",
-    down: "sad subplots are still part of the story, they're not the whole book. this chapter will turn.",
-    okay: "good, plots are allowed to be steady sometimes, not every page needs a twist."
-  };
-  const moodButtons = document.querySelectorAll('.mood-btn');
-  const moodResponse = document.getElementById('moodResponse');
-  moodButtons.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      moodButtons.forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');
-      moodResponse.textContent = moodMessages[btn.dataset.mood];
-      moodResponse.classList.add('show');
-      trackEvent('mood_selected', { mood: btn.dataset.mood, label: btn.textContent });
+    const floatsContainer = document.getElementById('floats');
+    const symbols = ['🌻', '🪷', '🌹', '💐'];
+    const floatCount = 15;
+    for (let i = 0; i < floatCount; i++) {
+      const el = document.createElement('div');
+      el.className = 'float';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      const size = 12 + Math.random() * 18;
+      el.style.fontSize = size + 'px';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.top = (-10 - Math.random() * 20) + 'vh';
+      const duration = 16 + Math.random() * 14;
+      el.style.animationDuration = duration + 's';
+      el.style.animationDelay = (-Math.random() * duration) + 's';
+      floatsContainer.appendChild(el);
+    }
+
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+
+    musicBtn.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicBtn.classList.add('playing');
+      } else {
+        bgMusic.pause();
+        musicBtn.classList.remove('playing');
+      }
     });
-  });
 
-  const weatherSlider = document.getElementById('weatherSlider');
-  const weatherEmoji = document.getElementById('weatherEmoji');
-  const weatherLabel = document.getElementById('weatherLabel');
-  const weatherStops = [
-    {max:15, emoji:'🚨', label:'really rough'},
-    {max:35, emoji:'🔍', label:'not great'},
-    {max:55, emoji:'📖', label:'kind of in-between'},
-    {max:80, emoji:'☕', label:'pretty good'},
-    {max:101, emoji:'✨', label:'really good'}
-  ];
-  function updateWeather(){
-    const v = Number(weatherSlider.value);
-    const stop = weatherStops.find(s => v <= s.max);
-    weatherEmoji.textContent = stop.emoji;
-    weatherLabel.textContent = stop.label;
-  }
-  weatherSlider.addEventListener('input', updateWeather);
-  updateWeather();
+    const cover = document.getElementById('cover');
+    const contentWrap = document.getElementById('contentWrap');
+    const openBtn = document.getElementById('openBtn');
+    openBtn.addEventListener('click', () => {
+      trackEvent('cover_opened');
+      cover.style.display = 'none';
+      contentWrap.classList.add('show');
+      contentWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  let sliderTimeout;
-  weatherSlider.addEventListener('input', ()=>{
-    clearTimeout(sliderTimeout);
-    sliderTimeout = setTimeout(()=>{
+      musicBtn.style.display = 'flex';
+      bgMusic.volume = 0.3;
+      bgMusic.play().then(() => musicBtn.classList.add('playing')).catch(e => console.log('Audio blocked', e));
+    });
+
+    const moodMessages = {
+      tired: "slow chapters exist so the fast ones hit harder. it's okay to just sit in this one for a while.",
+      stressed: "every thriller has a chapter where it all feels like too much right before it clicks into place. you're not stuck, you're just mid-scene.",
+      down: "sad subplots are still part of the story, they're not the whole book. this chapter will turn.",
+      okay: "good, plots are allowed to be steady sometimes, not every page needs a twist."
+    };
+    const moodButtons = document.querySelectorAll('.mood-btn');
+    const moodResponse = document.getElementById('moodResponse');
+    moodButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        moodButtons.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        moodResponse.textContent = moodMessages[btn.dataset.mood];
+        moodResponse.classList.add('show');
+        trackEvent('mood_selected', { mood: btn.dataset.mood, label: btn.textContent });
+      });
+    });
+
+    const weatherSlider = document.getElementById('weatherSlider');
+    const weatherEmoji = document.getElementById('weatherEmoji');
+    const weatherLabel = document.getElementById('weatherLabel');
+    const weatherStops = [
+      { max: 15, emoji: '🚨', label: 'really rough' },
+      { max: 35, emoji: '🔍', label: 'not great' },
+      { max: 55, emoji: '📖', label: 'kind of in-between' },
+      { max: 80, emoji: '☕', label: 'pretty good' },
+      { max: 101, emoji: '✨', label: 'really good' }
+    ];
+    function updateWeather() {
       const v = Number(weatherSlider.value);
       const stop = weatherStops.find(s => v <= s.max);
-      trackEvent('slider_interacted', { value: v, emoji: stop.emoji, label: stop.label });
-    }, 1000);
-  });
-
-  const poems = [
-    "some days just feel lighter\nlike the sun found your window\non purpose",
-    "you laughed today\nand somewhere that counted\nas a small kind of magic",
-    "good things are still\nheading your way\nsome of them are already here",
-    "you make ordinary days\nfeel a little more\nlike an inside joke with the universe",
-    "happiness doesn't need\na big reason\nsometimes it's just a good song and a good day",
-    "you're the kind of person\nwho makes rooms brighter\njust by walking into them"
-  ];
-  let poemIndex = 0;
-  const tropeBtn = document.getElementById('tropeBtn');
-  const bookWrap = document.getElementById('bookWrap');
-  const pageTurn = document.getElementById('pageTurn');
-  const poemFront = document.getElementById('poemFront');
-  const poemBack = document.getElementById('poemBack');
-  const poemUnder = document.getElementById('poemUnder');
-  let flipping = false;
-  let bookOpened = false;
-
-  poemFront.textContent = poems[0];
-  poemBack.textContent = poems[1];
-  poemUnder.textContent = poems[1];
-
-  function turnPage(){
-    if(flipping) return;
-    flipping = true;
-    pageTurn.classList.remove('notransition');
-    pageTurn.style.transform = 'rotateY(-180deg)';
-
-    pageTurn.addEventListener('transitionend', function handler(){
-      pageTurn.removeEventListener('transitionend', handler);
-      poemIndex = (poemIndex + 1) % poems.length;
-      const nextIndex = (poemIndex + 1) % poems.length;
-      pageTurn.classList.add('notransition');
-      pageTurn.style.transform = 'rotateY(0deg)';
-      poemFront.textContent = poems[poemIndex];
-      poemBack.textContent = poems[nextIndex];
-      poemUnder.textContent = poems[nextIndex];
-      flipping = false;
-      trackEvent('book_page_turned', { index: poemIndex, text: poems[poemIndex] });
-    }, {once:true});
-  }
-
-  function handleTropeClick(){
-    if(!bookOpened){
-      bookOpened = true;
-      bookWrap.classList.add('show');
-      tropeBtn.textContent = 'turn the page';
-      trackEvent('book_opened');
-      return;
+      weatherEmoji.textContent = stop.emoji;
+      weatherLabel.textContent = stop.label;
     }
-    turnPage();
-  }
+    weatherSlider.addEventListener('input', updateWeather);
+    updateWeather();
 
-  tropeBtn.addEventListener('click', handleTropeClick);
-  pageTurn.addEventListener('click', ()=>{ if(bookOpened) turnPage(); });
-
-  const thoughtBox = document.getElementById('thoughtBox');
-  let thoughtTimeout;
-  thoughtBox.addEventListener('input', () => {
-    clearTimeout(thoughtTimeout);
-    thoughtTimeout = setTimeout(() => {
-      const text = thoughtBox.value;
-      trackEvent('thought_autosaved', { text: text, length: text.length });
-    }, 2000);
-  });
-
-  const jarInput = document.getElementById('jarInput');
-  const jarAddBtn = document.getElementById('jarAddBtn');
-  const jarList = document.getElementById('jarList');
-  const jarEmpty = document.getElementById('jarEmpty');
-  const JAR_KEY = 'sania-good-things-jar';
-
-  function loadJar(){
-    try{
-      return JSON.parse(localStorage.getItem(JAR_KEY)) || [];
-    }catch(e){ return []; }
-  }
-  function saveJar(items){
-    try{ localStorage.setItem(JAR_KEY, JSON.stringify(items)); }catch(e){}
-  }
-  function renderJar(){
-    const items = loadJar();
-    const plantStages = ['🌱', '🌿', '🪴', '🌸', '🌳'];
-    const flowerPlant = document.getElementById('flowerPlant');
-    if (flowerPlant) flowerPlant.textContent = plantStages[Math.min(items.length, plantStages.length - 1)];
-    jarList.innerHTML = '';
-    jarEmpty.style.display = items.length ? 'none' : 'block';
-    items.forEach((text, idx)=>{
-      const row = document.createElement('div');
-      row.className = 'jar-item';
-      const span = document.createElement('span');
-      span.textContent = text;
-      const btn = document.createElement('button');
-      btn.textContent = '✕';
-      btn.setAttribute('aria-label','remove');
-      btn.addEventListener('click', ()=>{
-        const cur = loadJar();
-        cur.splice(idx,1);
-        saveJar(cur);
-        renderJar();
-        trackEvent('good_thing_removed', { text: text });
-      });
-      row.appendChild(span);
-      row.appendChild(btn);
-      jarList.appendChild(row);
+    let sliderTimeout;
+    weatherSlider.addEventListener('input', () => {
+      clearTimeout(sliderTimeout);
+      sliderTimeout = setTimeout(() => {
+        const v = Number(weatherSlider.value);
+        const stop = weatherStops.find(s => v <= s.max);
+        trackEvent('slider_interacted', { value: v, emoji: stop.emoji, label: stop.label });
+      }, 1000);
     });
-  }
-  function addJarEntry(){
-    const val = jarInput.value.trim();
-    if(!val) return;
-    const items = loadJar();
-    items.unshift(val);
-    saveJar(items);
-    jarInput.value = '';
-    renderJar();
-    trackEvent('good_thing_added', { text: val });
-  }
-  jarAddBtn.addEventListener('click', addJarEntry);
-  jarInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') addJarEntry(); });
-  renderJar();
 
-  // Secret Letter logic
-  const letterCard = document.getElementById('letterCard');
-  const letterContent = document.getElementById('letterContent');
-  letterCard.addEventListener('click', () => {
-    if (letterContent.style.display === 'none') {
-      letterContent.style.display = 'block';
-      letterContent.style.animation = 'pop 0.5s ease';
-      letterCard.style.cursor = 'default';
-      document.getElementById('envelopeIcon').textContent = '💌';
-      trackEvent('secret_letter_opened');
+    const poems = [
+      "some days just feel lighter\nlike the sun found your window\non purpose",
+      "you laughed today\nand somewhere that counted\nas a small kind of magic",
+      "good things are still\nheading your way\nsome of them are already here",
+      "you make ordinary days\nfeel a little more\nlike an inside joke with the universe",
+      "happiness doesn't need\na big reason\nsometimes it's just a good song and a good day",
+      "you're the kind of person\nwho makes rooms brighter\njust by walking into them"
+    ];
+    let poemIndex = 0;
+    const tropeBtn = document.getElementById('tropeBtn');
+    const bookWrap = document.getElementById('bookWrap');
+    const pageTurn = document.getElementById('pageTurn');
+    const poemFront = document.getElementById('poemFront');
+    const poemBack = document.getElementById('poemBack');
+    const poemUnder = document.getElementById('poemUnder');
+    let flipping = false;
+    let bookOpened = false;
+
+    poemFront.textContent = poems[0];
+    poemBack.textContent = poems[1];
+    poemUnder.textContent = poems[1];
+
+    function turnPage() {
+      if (flipping) return;
+      flipping = true;
+      pageTurn.classList.remove('notransition');
+      pageTurn.style.transform = 'rotateY(-180deg)';
+
+      pageTurn.addEventListener('transitionend', function handler() {
+        pageTurn.removeEventListener('transitionend', handler);
+        poemIndex = (poemIndex + 1) % poems.length;
+        const nextIndex = (poemIndex + 1) % poems.length;
+        pageTurn.classList.add('notransition');
+        pageTurn.style.transform = 'rotateY(0deg)';
+        poemFront.textContent = poems[poemIndex];
+        poemBack.textContent = poems[nextIndex];
+        poemUnder.textContent = poems[nextIndex];
+        flipping = false;
+        trackEvent('book_page_turned', { index: poemIndex, text: poems[poemIndex] });
+      }, { once: true });
     }
-  });
 
-  // Petal Cursor Trail
-  let lastTrailTime = 0;
-  function createTrail(x, y) {
-    const petal = document.createElement('div');
-    petal.className = 'petal-trail';
-    petal.textContent = ['🌻', '🪷', '🌹', '💐'][Math.floor(Math.random()*4)];
-    petal.style.left = (x - 10) + 'px';
-    petal.style.top = (y - 10) + 'px';
-    document.body.appendChild(petal);
-    setTimeout(() => petal.remove(), 1200);
-  }
-  window.addEventListener('mousemove', (e) => {
-    if (Date.now() - lastTrailTime < 50) return;
-    lastTrailTime = Date.now();
-    createTrail(e.clientX, e.clientY);
-  });
-  window.addEventListener('touchmove', (e) => {
-    if (Date.now() - lastTrailTime < 50) return;
-    lastTrailTime = Date.now();
-    createTrail(e.touches[0].clientX, e.touches[0].clientY);
-  });
+    function handleTropeClick() {
+      if (!bookOpened) {
+        bookOpened = true;
+        bookWrap.classList.add('show');
+        tropeBtn.textContent = 'turn the page';
+        trackEvent('book_opened');
+        return;
+      }
+      turnPage();
+    }
 
-  // Random Tiny Reminder
-  const reminders = [
-    { title: "you are doing great", text: "even on the days when it doesn't feel like it. take your time, there is no rush." },
-    { title: "it's okay to rest", text: "you don't have to be productive every single minute. just breathing is enough today." },
-    { title: "you are so loved", text: "never forget how much light you bring to the people around you." },
-    { title: "one step at a time", text: "you don't have to have it all figured out right now. just focus on the next small step." },
-    { title: "be gentle with yourself", text: "talk to yourself the way you would talk to someone you love." }
-  ];
-  const randomReminder = reminders[Math.floor(Math.random() * reminders.length)];
-  const reminderTitle = document.getElementById('reminderTitle');
-  const reminderText = document.getElementById('reminderText');
-  if (reminderTitle && reminderText) {
-    reminderTitle.textContent = randomReminder.title;
-    reminderText.textContent = randomReminder.text;
-  }
-</script>
+    tropeBtn.addEventListener('click', handleTropeClick);
+    pageTurn.addEventListener('click', () => { if (bookOpened) turnPage(); });
+
+    const thoughtBox = document.getElementById('thoughtBox');
+    let thoughtTimeout;
+    thoughtBox.addEventListener('input', () => {
+      clearTimeout(thoughtTimeout);
+      thoughtTimeout = setTimeout(() => {
+        const text = thoughtBox.value;
+        trackEvent('thought_autosaved', { text: text, length: text.length });
+      }, 2000);
+    });
+
+    const jarInput = document.getElementById('jarInput');
+    const jarAddBtn = document.getElementById('jarAddBtn');
+    const jarList = document.getElementById('jarList');
+    const jarEmpty = document.getElementById('jarEmpty');
+    const JAR_KEY = 'sania-good-things-jar';
+
+    function loadJar() {
+      try {
+        return JSON.parse(localStorage.getItem(JAR_KEY)) || [];
+      } catch (e) { return []; }
+    }
+    function saveJar(items) {
+      try { localStorage.setItem(JAR_KEY, JSON.stringify(items)); } catch (e) { }
+    }
+    function renderJar() {
+      const items = loadJar();
+      const plantStages = ['🌱', '🌿', '🪴', '🌸', '🌳'];
+      const flowerPlant = document.getElementById('flowerPlant');
+      if (flowerPlant) flowerPlant.textContent = plantStages[Math.min(items.length, plantStages.length - 1)];
+      jarList.innerHTML = '';
+      jarEmpty.style.display = items.length ? 'none' : 'block';
+      items.forEach((text, idx) => {
+        const row = document.createElement('div');
+        row.className = 'jar-item';
+        const span = document.createElement('span');
+        span.textContent = text;
+        const btn = document.createElement('button');
+        btn.textContent = '✕';
+        btn.setAttribute('aria-label', 'remove');
+        btn.addEventListener('click', () => {
+          const cur = loadJar();
+          cur.splice(idx, 1);
+          saveJar(cur);
+          renderJar();
+          trackEvent('good_thing_removed', { text: text });
+        });
+        row.appendChild(span);
+        row.appendChild(btn);
+        jarList.appendChild(row);
+      });
+    }
+    function addJarEntry() {
+      const val = jarInput.value.trim();
+      if (!val) return;
+      const items = loadJar();
+      items.unshift(val);
+      saveJar(items);
+      jarInput.value = '';
+      renderJar();
+      trackEvent('good_thing_added', { text: val });
+    }
+    jarAddBtn.addEventListener('click', addJarEntry);
+    jarInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') addJarEntry(); });
+    renderJar();
+
+    // Secret Letter logic
+    const letterCard = document.getElementById('letterCard');
+    const letterContent = document.getElementById('letterContent');
+    letterCard.addEventListener('click', () => {
+      if (letterContent.style.display === 'none') {
+        letterContent.style.display = 'block';
+        letterContent.style.animation = 'pop 0.5s ease';
+        letterCard.style.cursor = 'default';
+        document.getElementById('envelopeIcon').textContent = '💌';
+        trackEvent('secret_letter_opened');
+      }
+    });
+
+    // Petal Cursor Trail
+    let lastTrailTime = 0;
+    function createTrail(x, y) {
+      const petal = document.createElement('div');
+      petal.className = 'petal-trail';
+      petal.textContent = ['🌻', '🪷', '🌹', '💐'][Math.floor(Math.random() * 4)];
+      petal.style.left = (x - 10) + 'px';
+      petal.style.top = (y - 10) + 'px';
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 1200);
+    }
+    window.addEventListener('mousemove', (e) => {
+      if (Date.now() - lastTrailTime < 50) return;
+      lastTrailTime = Date.now();
+      createTrail(e.clientX, e.clientY);
+    });
+    window.addEventListener('touchmove', (e) => {
+      if (Date.now() - lastTrailTime < 50) return;
+      lastTrailTime = Date.now();
+      createTrail(e.touches[0].clientX, e.touches[0].clientY);
+    });
+
+    // Random Tiny Reminder
+    const reminders = [
+      { title: "you are doing great", text: "even on the days when it doesn't feel like it. take your time, there is no rush." },
+      { title: "it's okay to rest", text: "you don't have to be productive every single minute. just breathing is enough today." },
+      { title: "you are so loved", text: "never forget how much light you bring to the people around you." },
+      { title: "one step at a time", text: "you don't have to have it all figured out right now. just focus on the next small step." },
+      { title: "be gentle with yourself", text: "talk to yourself the way you would talk to someone you love." }
+    ];
+    const randomReminder = reminders[Math.floor(Math.random() * reminders.length)];
+    const reminderTitle = document.getElementById('reminderTitle');
+    const reminderText = document.getElementById('reminderText');
+    if (reminderTitle && reminderText) {
+      reminderTitle.textContent = randomReminder.title;
+      reminderText.textContent = randomReminder.text;
+    }
+  </script>
 
 </body>
+
 </html>
