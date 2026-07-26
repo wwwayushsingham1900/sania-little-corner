@@ -216,20 +216,28 @@
     const playSpecialPopSound = () => {
       if (!audioCtx) return;
       try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        // A soft, soothing pentatonic sequence
+        const notes = [523.25, 659.25, 783.99, 880.00]; 
+        const now = audioCtx.currentTime;
         
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(800 + Math.random() * 200, audioCtx.currentTime); 
-        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.15);
-        
-        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-        
-        osc.start(audioCtx.currentTime);
-        osc.stop(audioCtx.currentTime + 0.3);
+        notes.forEach((freq, index) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + index * 0.1); 
+          
+          // Soft attack and decay for each note
+          gain.gain.setValueAtTime(0, now + index * 0.1);
+          gain.gain.linearRampToValueAtTime(0.3, now + index * 0.1 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.1 + 0.3);
+          
+          osc.start(now + index * 0.1);
+          osc.stop(now + index * 0.1 + 0.3);
+        });
       } catch(e) {}
     };
 
