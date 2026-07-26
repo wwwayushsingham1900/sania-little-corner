@@ -213,6 +213,26 @@
       } catch(e) {}
     };
 
+    const playSpecialPopSound = () => {
+      if (!audioCtx) return;
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(800 + Math.random() * 200, audioCtx.currentTime); 
+        osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.15);
+        
+        gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+        
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.3);
+      } catch(e) {}
+    };
+
     // Game Entities
     let bubbles = [];
     let particles = [];
@@ -228,6 +248,12 @@
         this.color = colors.bubbles[Math.floor(Math.random() * colors.bubbles.length)];
         this.popped = false;
         this.alpha = 0; // fade in
+        
+        this.isFlower = Math.random() < 0.15; // 15% chance
+        if (this.isFlower) {
+          const flowers = ['🌻', '🪷', '🌼', '🌷', '🌺'];
+          this.flowerEmoji = flowers[Math.floor(Math.random() * flowers.length)];
+        }
       }
 
       update() {
@@ -253,13 +279,22 @@
         ctx.stroke();
         ctx.globalAlpha = 1;
         
-        // Tiny highlight
-        ctx.beginPath();
-        ctx.arc(this.renderX - this.radius * 0.3, this.y - this.radius * 0.3, this.radius * 0.15, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.globalAlpha = this.alpha * 0.5;
-        ctx.fill();
-        ctx.globalAlpha = 1;
+        if (this.isFlower) {
+          ctx.font = `${this.radius}px sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.globalAlpha = this.alpha * 0.9;
+          ctx.fillText(this.flowerEmoji, this.renderX, this.y);
+          ctx.globalAlpha = 1;
+        } else {
+          // Tiny highlight
+          ctx.beginPath();
+          ctx.arc(this.renderX - this.radius * 0.3, this.y - this.radius * 0.3, this.radius * 0.15, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.globalAlpha = this.alpha * 0.5;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
       }
     }
 
@@ -306,7 +341,11 @@
         
         if (dist < b.radius + 10) { // +10 for generous hitbox on mobile
           // Pop it!
-          playPopSound();
+          if (b.isFlower) {
+            playSpecialPopSound();
+          } else {
+            playPopSound();
+          }
           
           // Create particles
           for(let p = 0; p < 12; p++) {
@@ -350,9 +389,9 @@
       ctx.fillStyle = grad2;
       ctx.fillRect(0, 0, width, height);
 
-      // Spawn bubbles
+      // Spawn bubbles randomly instead of every fixed frames
       frameCount++;
-      if (frameCount % 40 === 0 && bubbles.length < 15) {
+      if (Math.random() < 0.025 && bubbles.length < 15) {
         bubbles.push(new Bubble());
       }
 
