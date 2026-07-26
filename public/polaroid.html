@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="color-scheme" content="light dark">
+  <title>polaroid maker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Fonts for the polaroid text -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Pacifico&family=Dancing+Script:wght@600&family=Permanent+Marker&family=Kalam:wght@700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --text: #4a3b42;
+      --rose: #e36f9c;
+      --rose-light: #f0a8c4;
+      --rose-deep: #b54971;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1517;
+        --text: #fce8f0;
+        --rose: #e36f9c;
+        --rose-light: #f0a8c4;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .header {
+      width: 100%;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 600px;
+    }
+
+    .btn {
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--rose);
+      border-radius: 30px;
+      background: rgba(240, 168, 196, 0.1);
+      color: var(--rose);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+      background: var(--rose-light);
+      color: #fff;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--rose);
+    }
+
+    .controls-panel {
+      width: 100%;
+      max-width: 600px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .photo-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .primary-btn {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: var(--rose);
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(227, 111, 156, 0.3);
+      transition: transform 0.1s;
+    }
+
+    .primary-btn:active {
+      transform: scale(0.96);
+    }
+
+    .primary-btn span {
+      font-size: 1.5rem;
+    }
+
+    .options-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .options-row label {
+      font-weight: 500;
+      font-size: 0.9rem;
+      min-width: 40px;
+    }
+
+    .step-container {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .step-container.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    select, input[type="text"] {
+      flex: 1;
+      padding: 0.8rem;
+      border: 2px solid rgba(227, 111, 156, 0.3);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      select, input[type="text"] {
+        background: rgba(0, 0, 0, 0.2);
+        color: white;
+      }
+    }
+
+    input[type="text"]:focus, select:focus {
+      border-color: var(--rose);
+    }
+
+    .filter-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 0.5rem 0;
+      width: 100%;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .filter-item.active {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+    .filter-thumb {
+      width: 65px;
+      height: 65px;
+      border-radius: 12px;
+      background-color: rgba(227, 111, 156, 0.2);
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border: 3px solid transparent;
+    }
+    .filter-item.active .filter-thumb {
+      border-color: var(--rose);
+    }
+    .filter-item span {
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .filter-none { filter: none; }
+    .filter-vintage { filter: sepia(0.4) contrast(1.1) brightness(1.05) saturate(1.2); }
+    .filter-bw { filter: grayscale(1) contrast(1.2); }
+    .filter-sepia { filter: sepia(0.8) contrast(1.1); }
+    .filter-faded { filter: contrast(0.9) brightness(1.1) saturate(0.8) opacity(0.9); }
+    .filter-cool { filter: contrast(1.1) brightness(1.05) hue-rotate(10deg) saturate(0.9); }
+    .filter-sun { filter: sepia(0.3) contrast(1.1) brightness(1.1) hue-rotate(-10deg) saturate(1.3); }
+    .filter-high { filter: contrast(1.4) saturate(1.2); }
+    .filter-pastel { filter: contrast(0.8) brightness(1.1) sepia(0.2) saturate(0.8) hue-rotate(-20deg); }
+
+    .canvas-container {
+      width: 100%;
+      max-width: 400px;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+    .instruction-overlay {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 10;
+      white-space: nowrap;
+    }
+
+    #polaroidCanvas {
+      width: 100%;
+      height: auto;
+      max-width: 350px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border-radius: 2px;
+      display: none;
+    }
+
+    .placeholder {
+      width: 100%;
+      max-width: 350px;
+      aspect-ratio: 1080 / 1300;
+      background: rgba(227, 111, 156, 0.1);
+      border: 2px dashed rgba(227, 111, 156, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--rose-deep);
+      font-family: 'Playfair Display', serif;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .save-btn {
+      width: calc(100% - 2rem);
+      max-width: 600px;
+      margin: 1rem;
+      padding: 1rem;
+      border-radius: 30px;
+      border: none;
+      background: var(--rose-deep);
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 4px 15px rgba(227, 111, 156, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <a href="index.html" class="btn">← go back</a>
+    <h1>polaroid maker</h1>
+  </div>
+
+  <div class="controls-panel">
+    
+    <!-- STEP 1: Choose Photo -->
+    <div id="step1" class="step-container active">
+      <div class="photo-buttons" style="flex-direction: column; align-items: center; gap: 1.5rem; margin-top: 2rem;">
+        <span style="font-size: 4rem;">📷</span>
+        <h2 style="font-family: 'Playfair Display', serif; color: var(--rose-deep); margin: 0; text-align: center;">Let's make a polaroid!</h2>
+        <p style="text-align: center; margin: 0 0 1rem 0; opacity: 0.8;">Choose a photo from your gallery or snap a new one to get started.</p>
+        
+        <input type="file" id="uploadInput" accept="image/*" style="display:none">
+        <input type="file" id="cameraInput" accept="image/*" capture="camera" style="display:none">
+        
+        <div style="display: flex; gap: 1rem; width: 100%;">
+          <button class="primary-btn" onclick="document.getElementById('uploadInput').click()">
+            <span>🖼️</span> upload photo
+          </button>
+          <button class="primary-btn" onclick="document.getElementById('cameraInput').click()">
+            <span>📸</span> take photo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Filters -->
+    <div id="step2" class="step-container">
+      <div class="options-row" style="flex-direction: column; align-items: flex-start;">
+        <label style="margin-bottom: 0.2rem;">choose an effect:</label>
+        <div class="filter-scroll" id="filterScroll">
+          <div class="filter-item active" data-filter="none">
+            <div class="filter-thumb filter-none"></div>
+            <span>Normal</span>
+          </div>
+          <div class="filter-item" data-filter="vintage">
+            <div class="filter-thumb filter-vintage"></div>
+            <span>Vintage</span>
+          </div>
+          <div class="filter-item" data-filter="bw">
+            <div class="filter-thumb filter-bw"></div>
+            <span>B&W</span>
+          </div>
+          <div class="filter-item" data-filter="sepia">
+            <div class="filter-thumb filter-sepia"></div>
+            <span>Sepia</span>
+          </div>
+          <div class="filter-item" data-filter="faded">
+            <div class="filter-thumb filter-faded"></div>
+            <span>Faded</span>
+          </div>
+          <div class="filter-item" data-filter="cool">
+            <div class="filter-thumb filter-cool"></div>
+            <span>Cool Breeze</span>
+          </div>
+          <div class="filter-item" data-filter="sun">
+            <div class="filter-thumb filter-sun"></div>
+            <span>Warm Sun</span>
+          </div>
+          <div class="filter-item" data-filter="high">
+            <div class="filter-thumb filter-high"></div>
+            <span>High Contrast</span>
+          </div>
+          <div class="filter-item" data-filter="pastel">
+            <div class="filter-thumb filter-pastel"></div>
+            <span>Pastel</span>
+          </div>
+        </div>
+      </div>
+      <button id="btnNext" class="save-btn" style="display:block; background: var(--rose); margin: 0;">next step →</button>
+    </div>
+
+    <!-- STEP 3: Text & Save -->
+    <div id="step3" class="step-container">
+      <div class="options-row">
+        <label>font:</label>
+        <select id="fontSelect">
+          <option value="Caveat" style="font-family: 'Caveat'">Caveat (Handwritten)</option>
+          <option value="Pacifico" style="font-family: 'Pacifico'">Pacifico (Cursive)</option>
+          <option value="Kalam" style="font-family: 'Kalam'">Kalam (Marker)</option>
+          <option value="Dancing Script" style="font-family: 'Dancing Script'">Dancing Script (Elegant)</option>
+          <option value="Permanent Marker" style="font-family: 'Permanent Marker'">Permanent Marker (Bold)</option>
+        </select>
+      </div>
+
+      <div class="options-row">
+        <label>text:</label>
+        <input type="text" id="captionInput" placeholder="write something sweet (optional)..." maxlength="40">
+      </div>
+      
+      <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+        <button id="btnBack" class="btn" style="flex: 1; padding: 1rem;">← back</button>
+        <button class="save-btn" id="saveBtn" style="display:block; margin: 0; flex: 2;">save polaroid 🤍</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="canvas-container" id="canvasWrapper" style="display: none;">
+    <div id="instructionOverlay" class="instruction-overlay">✨ Pinch to zoom, drag to pan ✨</div>
+    <canvas id="polaroidCanvas" width="1080" height="1300" style="display: block; cursor: grab;"></canvas>
+  </div>
+
+  <script>
+    const uploadInput = document.getElementById('uploadInput');
+    const cameraInput = document.getElementById('cameraInput');
+    const canvas = document.getElementById('polaroidCanvas');
+    const ctx = canvas.getContext('2d');
+    const placeholder = document.getElementById('placeholder');
+    const saveBtn = document.getElementById('saveBtn');
+    
+    const fontSelect = document.getElementById('fontSelect');
+    const captionInput = document.getElementById('captionInput');
+
+    const btnNext = document.getElementById('btnNext');
+    const btnBack = document.getElementById('btnBack');
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+    const step3 = document.getElementById('step3');
+    const canvasWrapper = document.getElementById('canvasWrapper');
+    const instructionOverlay = document.getElementById('instructionOverlay');
+
+    let currentImage = null;
+    let panX = 0;
+    let panY = 0;
+    let scale = 1;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let initialPinchDistance = null;
+    let initialScale = 1;
+
+    // Navigation logic
+    btnNext.addEventListener('click', () => {
+      step2.classList.remove('active');
+      step3.classList.add('active');
+    });
+
+    btnBack.addEventListener('click', () => {
+      step3.classList.remove('active');
+      step2.classList.add('active');
+    });
+
+    // Handle file selection
+    function handleFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          currentImage = img;
+          panX = 0;
+          panY = 0;
+          scale = 1;
+          
+          // Update filter thumbnails with the actual image
+          document.querySelectorAll('.filter-thumb').forEach(thumb => {
+            thumb.style.backgroundImage = `url(${event.target.result})`;
+          });
+
+          // Transition to Step 2
+          step1.classList.remove('active');
+          step2.classList.add('active');
+          canvasWrapper.style.display = 'flex';
+          
+          instructionOverlay.style.opacity = '1';
+          setTimeout(() => {
+            instructionOverlay.style.opacity = '0';
+          }, 3000);
+
+          renderPolaroid();
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    uploadInput.addEventListener('change', handleFile);
+    cameraInput.addEventListener('change', handleFile);
+
+    // Re-render when inputs change
+    const filterItems = document.querySelectorAll('.filter-item');
+    let currentFilter = 'none';
+
+    filterItems.forEach(item => {
+      item.addEventListener('click', () => {
+        filterItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        currentFilter = item.dataset.filter;
+        renderPolaroid();
+      });
+    });
+
+    fontSelect.addEventListener('change', renderPolaroid);
+    captionInput.addEventListener('input', renderPolaroid);
+
+    document.fonts.ready.then(() => {
+      if (currentImage) renderPolaroid();
+    });
+
+    function getEventPos(e) {
+      if (e.touches && e.touches.length > 0) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+
+    function getPinchDistance(e) {
+      if (e.touches && e.touches.length >= 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+      return null;
+    }
+
+    canvas.addEventListener('mousedown', startDrag);
+    canvas.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) {
+        initialPinchDistance = getPinchDistance(e);
+        initialScale = scale;
+      } else if (e.touches.length === 1) {
+        startDrag(e);
+      }
+      e.preventDefault();
+    }, {passive: false});
+
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2 && initialPinchDistance) {
+        const dist = getPinchDistance(e);
+        const ratio = dist / initialPinchDistance;
+        scale = Math.max(0.5, initialScale * ratio); // Allow zooming in/out
+        renderPolaroid();
+        e.preventDefault();
+      } else if (e.touches.length === 1) {
+        drag(e);
+        if (e.target === canvas) e.preventDefault();
+      }
+    }, {passive: false});
+
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', () => {
+      initialPinchDistance = null;
+      endDrag();
+    });
+
+    function startDrag(e) {
+      if (currentImage) {
+        isDragging = true;
+        const pos = getEventPos(e);
+        startX = pos.x;
+        startY = pos.y;
+      }
+    }
+
+    function drag(e) {
+      if (!isDragging) return;
+      const pos = getEventPos(e);
+      const dx = pos.x - startX;
+      const dy = pos.y - startY;
+      
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+
+      panX += dx * scaleX;
+      panY += dy * scaleY;
+      
+      startX = pos.x;
+      startY = pos.y;
+      renderPolaroid();
+    }
+
+    function endDrag() {
+      isDragging = false;
+    }
+
+    function applyFilter(context, filter) {
+      if (filter === 'none') {
+        context.filter = 'none';
+      } else if (filter === 'vintage') {
+        context.filter = 'sepia(0.4) contrast(1.1) brightness(1.05) saturate(1.2)';
+      } else if (filter === 'bw') {
+        context.filter = 'grayscale(1) contrast(1.2)';
+      } else if (filter === 'sepia') {
+        context.filter = 'sepia(0.8) contrast(1.1)';
+      } else if (filter === 'faded') {
+        context.filter = 'contrast(0.9) brightness(1.1) saturate(0.8) opacity(0.9)';
+      } else if (filter === 'cool') {
+        context.filter = 'contrast(1.1) brightness(1.05) hue-rotate(10deg) saturate(0.9)';
+      } else if (filter === 'sun') {
+        context.filter = 'sepia(0.3) contrast(1.1) brightness(1.1) hue-rotate(-10deg) saturate(1.3)';
+      } else if (filter === 'high') {
+        context.filter = 'contrast(1.4) saturate(1.2)';
+      } else if (filter === 'pastel') {
+        context.filter = 'contrast(0.8) brightness(1.1) sepia(0.2) saturate(0.8) hue-rotate(-20deg)';
+      }
+    }
+
+    function renderPolaroid() {
+      if (!currentImage) return;
+
+      const width = canvas.width;
+      const height = canvas.height;
+      const margin = 50;
+      const photoSize = width - (margin * 2);
+
+      // Draw white polaroid background
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, width, height);
+
+      // Calculate base image dimensions for 'cover' fit
+      const imgRatio = currentImage.width / currentImage.height;
+      let drawW, drawH;
+      if (imgRatio > 1) { // Landscape
+        drawH = photoSize;
+        drawW = photoSize * imgRatio;
+      } else { // Portrait
+        drawW = photoSize;
+        drawH = photoSize / imgRatio;
+      }
+
+      ctx.save();
+      
+      // Create clipping path for the photo area
+      ctx.beginPath();
+      ctx.rect(margin, margin, photoSize, photoSize);
+      ctx.clip();
+
+      const filter = currentFilter;
+
+      // Apply filter securely on an off-screen canvas to bypass Safari bugs with clip/translate
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = currentImage.width;
+      tempCanvas.height = currentImage.height;
+      const tempCtx = tempCanvas.getContext('2d');
+      applyFilter(tempCtx, filter);
+      tempCtx.drawImage(currentImage, 0, 0);
+
+      // Translate to the center of the photo area, apply pan and scale
+      const centerX = margin + photoSize / 2;
+      const centerY = margin + photoSize / 2;
+      ctx.translate(centerX + panX, centerY + panY);
+      ctx.scale(scale, scale);
+
+      // Draw the baked photo centered
+      ctx.drawImage(tempCanvas, -drawW / 2, -drawH / 2, drawW, drawH);
+      
+      ctx.restore();
+      
+      // Add a slight inner shadow / border to the photo for realism
+      ctx.filter = 'none'; // reset filter for stroke
+      ctx.strokeStyle = 'rgba(0,0,0,0.1)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(margin, margin, photoSize, photoSize);
+
+      // Draw text
+      const text = captionInput.value.trim();
+      if (text) {
+        const fontFamily = fontSelect.value;
+        ctx.fillStyle = '#111';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        let fontSize = 80;
+        if (fontFamily === 'Pacifico' || fontFamily === 'Dancing Script') fontSize = 90;
+        if (fontFamily === 'Permanent Marker') fontSize = 70;
+        
+        ctx.font = `${fontSize}px "${fontFamily}", sans-serif`;
+        
+        // Smart text scaling to prevent overflow
+        let textWidth = ctx.measureText(text).width;
+        let maxWidth = width - (margin * 3); // Extra padding so it doesn't touch the edge
+        
+        while (textWidth > maxWidth && fontSize > 20) {
+          fontSize -= 2;
+          ctx.font = `${fontSize}px "${fontFamily}", sans-serif`;
+          textWidth = ctx.measureText(text).width;
+        }
+        
+        // Text position: center of the bottom border
+        const textY = margin + photoSize + ((height - (margin + photoSize)) / 2);
+        ctx.fillText(text, width / 2, textY);
+      }
+    }
+
+    saveBtn.addEventListener('click', () => {
+      if (!currentImage) return;
+      
+      const link = document.createElement('a');
+      link.download = `polaroid_${Date.now()}.jpg`;
+      link.href = canvas.toDataURL('image/jpeg', 0.95);
+      link.click();
+      
+      // Track event silently
+      fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          session_id: localStorage.getItem('sania_session') || 'unknown',
+          event_name: 'polaroid_saved',
+          data: { filter: currentFilter, font: fontSelect.value },
+          timestamp: Date.now()
+        })
+      }).catch(e => console.log('Event tracking failed', e));
+    });
+  </script>
+</body>
+</html>
