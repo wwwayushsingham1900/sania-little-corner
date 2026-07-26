@@ -213,12 +213,31 @@
       } catch(e) {}
     };
 
-    const playSpecialPopSound = () => {
+    const playSpecialPopSound = (flower) => {
       if (!audioCtx) return;
       try {
-        // A soft, soothing pentatonic sequence
-        const notes = [523.25, 659.25, 783.99, 880.00]; 
         const now = audioCtx.currentTime;
+        let notes = [];
+        
+        switch (flower) {
+          case '🌻': // Sunflower: bright major
+            notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+            break;
+          case '🪷': // Lotus: zen pentatonic
+            notes = [587.33, 659.25, 783.99, 880.00]; // D5, E5, G5, A5
+            break;
+          case '🌼': // Daisy: playful bouncy
+            notes = [523.25, 587.33, 659.25, 587.33]; // C5, D5, E5, D5
+            break;
+          case '🌷': // Tulip: soft rising
+            notes = [440.00, 523.25, 659.25, 880.00]; // A4, C5, E5, A5
+            break;
+          case '🌺': // Lily: sweet cascading down
+            notes = [1046.50, 880.00, 783.99, 659.25]; // C6, A5, G5, E5
+            break;
+          default:
+            notes = [523.25, 659.25, 783.99, 880.00];
+        }
         
         notes.forEach((freq, index) => {
           const osc = audioCtx.createOscillator();
@@ -350,7 +369,7 @@
         if (dist < b.radius + 10) { // +10 for generous hitbox on mobile
           // Pop it!
           if (b.isFlower) {
-            playSpecialPopSound();
+            playSpecialPopSound(b.flowerEmoji);
           } else {
             playPopSound();
           }
