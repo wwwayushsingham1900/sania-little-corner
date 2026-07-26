@@ -193,7 +193,7 @@
     const sessions = new Set(allEvents.map(e => e.session_id));
     document.getElementById('totalSessions').textContent = sessions.size;
     if (allEvents.length > 0) {
-      document.getElementById('latestActivity').textContent = new Date(allEvents[0].server_timestamp).toLocaleString();
+      document.getElementById('latestActivity').textContent = new Date(parseInt(allEvents[0].server_timestamp)).toLocaleString();
     }
   }
 
@@ -233,15 +233,14 @@
 
     filtered.forEach(e => {
       const tr = document.createElement('tr');
-      const time = new Date(e.server_timestamp).toLocaleString();
+      const time = new Date(parseInt(e.server_timestamp)).toLocaleString();
       let dataHtml = '';
       if (e.event_data) {
-        try {
-          const parsed = JSON.parse(e.event_data);
-          dataHtml = `<div class="json-data">${JSON.stringify(parsed, null, 2)}</div>`;
-        } catch(err) {
-          dataHtml = e.event_data;
+        let parsed = e.event_data;
+        if (typeof parsed === 'string') {
+          try { parsed = JSON.parse(parsed); } catch(err){}
         }
+        dataHtml = `<div class="json-data">${JSON.stringify(parsed, null, 2)}</div>`;
       }
 
       tr.innerHTML = `
