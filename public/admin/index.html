@@ -139,6 +139,7 @@
       <tr>
         <th>Time</th>
         <th>Session</th>
+        <th>Device</th>
         <th>Event Name</th>
         <th>Data</th>
       </tr>
@@ -231,6 +232,17 @@
       return;
     }
 
+    function parseDevice(ua) {
+      if (!ua) return 'Unknown';
+      if (/iPhone|iPod/.test(ua)) return 'iPhone';
+      if (/iPad/.test(ua)) return 'iPad';
+      if (/Android/.test(ua)) return 'Android';
+      if (/Mac OS X/.test(ua)) return 'Mac';
+      if (/Windows/.test(ua)) return 'Windows';
+      if (/Linux/.test(ua)) return 'Linux';
+      return 'Other';
+    }
+
     filtered.forEach(e => {
       const tr = document.createElement('tr');
       const time = new Date(parseInt(e.server_timestamp)).toLocaleString();
@@ -242,10 +254,13 @@
         }
         dataHtml = `<div class="json-data">${JSON.stringify(parsed, null, 2)}</div>`;
       }
+      
+      const device = parseDevice(e.user_agent);
 
       tr.innerHTML = `
         <td>${time}</td>
         <td title="${e.session_id}">${e.session_id.substring(0,8)}...</td>
+        <td title="${e.user_agent}">${device}</td>
         <td><strong>${e.event_name}</strong></td>
         <td>${dataHtml}</td>
       `;
