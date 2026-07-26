@@ -648,8 +648,8 @@
 
   <div class="card" style="text-align:center;">
     <p class="chapter-tag">a tiny reminder</p>
-    <h2>you are doing great</h2>
-    <p class="lead">even on the days when it doesn't feel like it. take your time, there is no rush.</p>
+    <h2 id="reminderTitle">you are doing great</h2>
+    <p class="lead" id="reminderText">even on the days when it doesn't feel like it. take your time, there is no rush.</p>
   </div>
 
   <div class="card" id="letterCard" style="text-align:center; cursor:pointer;">
@@ -720,7 +720,7 @@
   window.addEventListener('beforeunload', () => trackEvent('session_end'));
 
   const floatsContainer = document.getElementById('floats');
-  const symbols = ['🌸','💮','🌺','🌼'];
+  const symbols = ['🌻', '🪷', '🌹', '💐'];
   const floatCount = 15;
   for(let i=0;i<floatCount;i++){
     const el = document.createElement('div');
@@ -949,7 +949,7 @@
   function createTrail(x, y) {
     const petal = document.createElement('div');
     petal.className = 'petal-trail';
-    petal.textContent = ['🌻','🪷'][Math.floor(Math.random()*2)];
+    petal.textContent = ['🌻', '🪷', '🌹', '💐'][Math.floor(Math.random()*4)];
     petal.style.left = (x - 10) + 'px';
     petal.style.top = (y - 10) + 'px';
     document.body.appendChild(petal);
@@ -965,6 +965,22 @@
     lastTrailTime = Date.now();
     createTrail(e.touches[0].clientX, e.touches[0].clientY);
   });
+
+  // Random Tiny Reminder
+  const reminders = [
+    { title: "you are doing great", text: "even on the days when it doesn't feel like it. take your time, there is no rush." },
+    { title: "it's okay to rest", text: "you don't have to be productive every single minute. just breathing is enough today." },
+    { title: "you are so loved", text: "never forget how much light you bring to the people around you." },
+    { title: "one step at a time", text: "you don't have to have it all figured out right now. just focus on the next small step." },
+    { title: "be gentle with yourself", text: "talk to yourself the way you would talk to someone you love." }
+  ];
+  const randomReminder = reminders[Math.floor(Math.random() * reminders.length)];
+  const reminderTitle = document.getElementById('reminderTitle');
+  const reminderText = document.getElementById('reminderText');
+  if (reminderTitle && reminderText) {
+    reminderTitle.textContent = randomReminder.title;
+    reminderText.textContent = randomReminder.text;
+  }
 </script>
 
 </body>
