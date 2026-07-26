@@ -293,7 +293,7 @@
   .book{
     position:relative;
     display:flex;
-    height:340px;
+    height:280px;
     border-radius:10px;
     box-shadow:0 20px 40px -18px rgba(0,0,0,0.6);
   }
@@ -309,7 +309,9 @@
   }
   .book-page-left{
     flex:1;
-    background:linear-gradient(100deg, #F3E9DC, #ECDFCE);
+    background-color: #F3E9DC;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
+    background-size: cover;
     border-radius:8px 0 0 8px;
     display:flex;
     align-items:center;
@@ -329,9 +331,11 @@
   .book-page-under{
     position:absolute;
     inset:0;
-    background:linear-gradient(260deg, #F3E9DC, #ECDFCE);
+    background-color: #F3E9DC;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
+    background-size: cover;
     border-radius:0 8px 8px 0;
-    padding:1.8rem 1.4rem;
+    padding:1rem 0.5rem;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -351,23 +355,28 @@
     inset:0;
     backface-visibility:hidden;
     border-radius:0 8px 8px 0;
-    padding:1.8rem 1.4rem;
+    padding:1rem 0.5rem;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-    background:linear-gradient(260deg, #F3E9DC, #ECDFCE);
+    background-color: #F3E9DC;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23F3E9DC'/%3E%3C/svg%3E");
+    background-size: cover;
   }
   .book-face.back{
     transform:rotateY(180deg);
-    background:linear-gradient(80deg, #EDE1D2, #E6D8C6);
+    background-color: #EDE1D2;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect width='100%25' height='100%25' fill='%23EDE1D2'/%3E%3C/svg%3E");
+    background-size: cover;
   }
   .poem-text{
     font-family:'Playfair Display',serif;
     font-style:italic;
-    font-size:1.08rem;
-    line-height:1.85;
+    font-size:0.9rem;
+    line-height:1.75;
     color:#3A2A30;
+    -webkit-text-fill-color: #3A2A30;
     white-space:pre-line;
     margin:0;
   }
