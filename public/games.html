@@ -88,18 +88,17 @@
       pointer-events: auto;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.3rem;
       font-family: 'Playfair Display', serif;
       font-weight: 600;
-      font-size: 1rem;
-      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
       border: 1px solid var(--rose);
       border-radius: 30px;
       background: rgba(240, 168, 196, 0.1);
       color: var(--rose);
       text-decoration: none;
       transition: background 0.2s ease, transform 0.15s ease;
-      backdrop-filter: blur(4px);
     }
 
     .back-btn:active {
@@ -181,30 +180,37 @@
     // Audio setup (soft synthesized plop)
     let audioCtx;
     const initAudio = () => {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      try {
+        if (!audioCtx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) audioCtx = new AC();
+        }
+        if (audioCtx && audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      } catch (e) {
+        console.warn('Audio not supported', e);
       }
     };
 
     const playPopSound = () => {
       if (!audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime); // randomize pitch slightly
-      osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
-      
-      gain.gain.setValueAtTime(0.3, audioCtx.currentTime); // Soft volume
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-      
-      osc.start(audioCtx.currentTime);
-      osc.stop(audioCtx.currentTime + 0.1);
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400 + Math.random() * 200, audioCtx.currentTime); // randomize pitch slightly
+        osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.1);
+        
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime); // Soft volume
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        
+        osc.start(audioCtx.currentTime);
+        osc.stop(audioCtx.currentTime + 0.1);
+      } catch(e) {}
     };
 
     // Game Entities
@@ -313,15 +319,15 @@
       }
     };
 
-    // Touch events for mobile
-    window.addEventListener('touchstart', (e) => {
+    // Touch events for mobile on CANVAS only
+    canvas.addEventListener('touchstart', (e) => {
       e.preventDefault(); // stop scrolling
       for(let i=0; i<e.touches.length; i++) {
         handlePop(e.touches[i].clientX, e.touches[i].clientY);
       }
     }, { passive: false });
     
-    window.addEventListener('mousedown', (e) => {
+    canvas.addEventListener('mousedown', (e) => {
       handlePop(e.clientX, e.clientY);
     });
 
