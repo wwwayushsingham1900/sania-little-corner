@@ -51,7 +51,7 @@
       color: var(--text-primary);
     }
 
-    .ui-layer {
+    .top-bar-container {
       position: absolute;
       top: 0;
       left: 0;
@@ -59,16 +59,9 @@
       padding: 1rem;
       z-index: 10;
       display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      pointer-events: none;
-    }
-
-    .top-bar {
-      display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      width: 100%;
+      align-items: center;
+      pointer-events: none;
     }
 
     .btn {
@@ -87,7 +80,6 @@
       color: var(--rose);
       text-decoration: none;
       transition: background 0.2s ease, transform 0.15s ease;
-      backdrop-filter: blur(4px);
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
@@ -107,39 +99,43 @@
       color: var(--rose-deep);
     }
 
-    .title-box p {
-      margin: 0.2rem 0 0;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
+    .tools-container {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 0;
+      width: 100%;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+      padding: 0 1rem;
     }
 
     .tools-bar {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 0.8rem;
       pointer-events: auto;
       background: var(--ink-card);
-      padding: 0.8rem 1.2rem;
+      padding: 0.8rem 1rem;
       border-radius: 20px;
       border: 1px solid rgba(240, 168, 196, 0.2);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      margin: 0 auto;
-      width: max-content;
-    }
-
-    .row {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 0.8rem;
       width: 100%;
+      max-width: 400px;
+    }
+
+    .tools-row {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
+      width: 100%;
+      gap: 0.5rem;
     }
 
     .color-btn {
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       border: 2px solid transparent;
       cursor: pointer;
@@ -155,11 +151,11 @@
       border-color: var(--text-primary);
     }
 
-    /* Custom Color Picker input hidden over a rainbow button */
+    /* Custom Color Picker */
     .custom-color-wrapper {
       position: relative;
-      width: 26px;
-      height: 26px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
       cursor: pointer;
@@ -185,19 +181,27 @@
       border: none;
       color: var(--text-secondary);
       font-family: 'Quicksand', sans-serif;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      padding: 0.2rem 0.5rem;
+      padding: 0.3rem 0.5rem;
+      transition: color 0.2s ease;
     }
 
     .action-btn:active {
       color: var(--rose-deep);
     }
 
+    .save-btn {
+      color: var(--rose);
+      border: 1px solid var(--rose);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+    }
+
     .divider {
       width: 1px;
-      height: 20px;
+      height: 24px;
       background: var(--text-secondary);
       opacity: 0.3;
     }
@@ -206,13 +210,14 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
+      flex: 1;
     }
 
     input[type="range"] {
       -webkit-appearance: none;
-      width: 100px;
+      width: 100%;
       height: 4px;
       background: var(--rose);
       border-radius: 4px;
@@ -221,11 +226,12 @@
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background: var(--text-primary);
       cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
     canvas {
@@ -242,42 +248,40 @@
 </head>
 
 <body>
-  <div class="ui-layer">
-    <div class="top-bar">
-      <a href="index.html" class="btn">← go back</a>
-      <div class="title-box">
-        <h1>glowing canvas</h1>
-        <p>draw & color whatever you feel</p>
-      </div>
+  <div class="top-bar-container">
+    <a href="index.html" class="btn">← back</a>
+    <div class="title-box">
+      <h1>sketchbook</h1>
     </div>
-    
+  </div>
+  
+  <div class="tools-container">
     <div class="tools-bar">
-      <div class="row">
-        <!-- Preset Colors -->
+      <!-- First Row: Colors -->
+      <div class="tools-row">
         <div class="color-btn active preset-color" style="background: #F0A8C4;" data-color="#F0A8C4"></div>
         <div class="color-btn preset-color" style="background: #C9A66B;" data-color="#C9A66B"></div>
         <div class="color-btn preset-color" style="background: #FFFFFF;" data-color="#FFFFFF"></div>
         <div class="color-btn preset-color" style="background: #7C2A3B;" data-color="#7C2A3B"></div>
         <div class="color-btn preset-color" style="background: #4A90E2;" data-color="#4A90E2"></div>
         
-        <!-- Any Color Picker -->
         <div class="custom-color-wrapper" id="customColorBtn">
           <input type="color" id="colorPicker" value="#00ff00">
         </div>
       </div>
       
-      <div class="row" style="justify-content: center; gap: 1rem;">
-        <!-- Brush Size / Coloring -->
+      <!-- Second Row: Size & Actions -->
+      <div class="tools-row">
         <div class="slider-container">
-          <span>pen</span>
+          <span style="font-size:1rem;">🖊️</span>
           <input type="range" id="sizeSlider" min="2" max="40" value="6">
-          <span>color</span>
+          <span style="font-size:1.2rem;">🖍️</span>
         </div>
         
         <div class="divider"></div>
         
         <button class="action-btn" id="clearBtn">clear</button>
-        <button class="action-btn" id="saveBtn">save photo 📸</button>
+        <button class="action-btn save-btn" id="saveBtn">save 📸</button>
       </div>
     </div>
   </div>
@@ -295,19 +299,16 @@
     let brushSize = 6;
     let points = [];
 
-    const getGlowColor = (hex) => {
-      // Just return the same color for glow to simplify custom colors, it still looks great
-      return hex;
-    };
-
-    // Setup Canvas
+    // Setup Canvas safely with exact CSS color to avoid mis-match
     const resize = () => {
       const imgData = canvas.width ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null;
       
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       
-      ctx.fillStyle = window.matchMedia('(prefers-color-scheme: light)').matches ? '#FAF3F5' : '#1B1420';
+      // Get the exact computed background color of the body to prevent rendering glitches
+      const computedBg = getComputedStyle(document.body).backgroundColor;
+      ctx.fillStyle = computedBg;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       if (imgData) {
@@ -316,8 +317,13 @@
     };
     
     window.addEventListener('resize', resize);
-    resize();
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', resize);
+    
+    // Initial setup with a slight delay to ensure CSS variables are applied
+    setTimeout(resize, 10);
+    
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => {
+      setTimeout(resize, 10);
+    });
 
     // Drawing Logic
     const startDrawing = (e) => {
@@ -327,7 +333,6 @@
       lastY = y;
       points = [{ x, y }];
       
-      // Draw a dot on tap
       ctx.beginPath();
       ctx.fillStyle = strokeColor;
       ctx.arc(x, y, brushSize / 2, 0, Math.PI * 2);
@@ -348,7 +353,7 @@
       ctx.lineWidth = brushSize;
       ctx.strokeStyle = strokeColor;
       ctx.shadowBlur = Math.min(15, brushSize * 1.5);
-      ctx.shadowColor = getGlowColor(strokeColor);
+      ctx.shadowColor = strokeColor; // using the same color for glow
 
       ctx.lineTo(x, y);
       ctx.stroke();
@@ -409,7 +414,8 @@
     });
 
     document.getElementById('clearBtn').addEventListener('click', () => {
-      ctx.fillStyle = window.matchMedia('(prefers-color-scheme: light)').matches ? '#FAF3F5' : '#1B1420';
+      const computedBg = getComputedStyle(document.body).backgroundColor;
+      ctx.fillStyle = computedBg;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
     });
 
@@ -422,13 +428,12 @@
         const file = new File([blob], 'my_canvas_sketch.png', { type: 'image/png' });
         
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          // Opens native share sheet (where user can tap "Save Image")
           await navigator.share({
             files: [file],
             title: 'My Glowing Sketch',
           });
         } else {
-          // Fallback for desktop or non-supported browsers
+          // Fallback
           const link = document.createElement('a');
           link.download = 'my_canvas_sketch.png';
           link.href = dataUrl;
@@ -436,7 +441,7 @@
         }
       } catch (err) {
         console.error('Share failed', err);
-        // Direct download fallback
+        // Fallback
         const link = document.createElement('a');
         link.download = 'my_canvas_sketch.png';
         link.href = dataUrl;
