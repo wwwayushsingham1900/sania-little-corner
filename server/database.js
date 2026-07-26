@@ -26,6 +26,7 @@ async function initDb() {
     try {
         await pool.query(createTableQuery);
         await pool.query(`ALTER TABLE events ADD COLUMN IF NOT EXISTS ip_address TEXT;`);
+        await pool.query(`ALTER TABLE events ADD COLUMN IF NOT EXISTS location TEXT;`);
         console.log('Events table ready.');
     } catch (err) {
         console.error('Error creating events table:', err.message);
@@ -35,18 +36,28 @@ async function initDb() {
 // Call initDb when database module is loaded
 initDb();
 
-function insertEvent(event, userAgent, ipAddress, callback) {
+function cleanupOldEvents() {
+    const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000); // 2 hours in ms
+    const query = `DELETE FROM events WHERE server_timestamp < $1`;
+    pool.query(query, [twoHoursAgo], (err) => {
+        if (err) console.error('Error cleaning up old events:', err.message);
+    });
+}
+
+function insertEvent(event, userAgent, ipAddress, location, callback) {
+    cleanupOldEvents();
+
     const { session_id, event_name, data, timestamp } = event;
     const serverTimestamp = Date.now();
     const eventDataString = data ? JSON.stringify(data) : null;
 
     const query = `
-        INSERT INTO events (session_id, event_name, event_data, client_timestamp, server_timestamp, user_agent, ip_address)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO events (session_id, event_name, event_data, client_timestamp, server_timestamp, user_agent, ip_address, location)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING id
     `;
 
-    pool.query(query, [session_id, event_name, eventDataString, timestamp, serverTimestamp, userAgent, ipAddress], (err, res) => {
+    pool.query(query, [session_id, event_name, eventDataString, timestamp, serverTimestamp, userAgent, ipAddress, location], (err, res) => {
         if (callback) {
             callback(err, res && res.rows[0] ? res.rows[0].id : null);
         }

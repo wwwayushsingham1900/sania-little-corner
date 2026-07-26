@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 // API Endpoint to receive telemetry events
-app.post('/api/events', (req, res) => {
+app.post('/api/events', async (req, res) => {
     const event = req.body;
     const userAgent = req.headers['user-agent'] || null;
     let ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
@@ -27,7 +27,20 @@ app.post('/api/events', (req, res) => {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    dbModule.insertEvent(event, userAgent, ipAddress, (err, id) => {
+    let location = 'Unknown';
+    if (ipAddress && ipAddress !== '::1' && ipAddress !== '127.0.0.1') {
+        try {
+            const locRes = await fetch(`http://ip-api.com/json/${ipAddress}`);
+            const locData = await locRes.json();
+            if (locData.status === 'success') {
+                location = `${locData.city}, ${locData.country}`;
+            }
+        } catch (e) {
+            console.error('Location fetch failed', e);
+        }
+    }
+
+    dbModule.insertEvent(event, userAgent, ipAddress, location, (err, id) => {
         if (err) {
             console.error('Error inserting event:', err);
             return res.status(500).json({ error: 'Internal server error' });
