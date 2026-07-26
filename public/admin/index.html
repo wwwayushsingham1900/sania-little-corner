@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard - Sania Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --border: #334155;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --success: #10b981;
+    --danger: #ef4444;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+  }
+  h1, h2, h3 { margin: 0 0 1rem; }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .btn:hover { background: var(--primary-hover); }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  .stat-card h3 { color: var(--text-muted); font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .stat-card .value { font-size: 2rem; font-weight: 700; }
+  
+  .filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .filter-group { display: flex; flex-direction: column; gap: 0.25rem; }
+  .filter-group label { font-size: 0.875rem; color: var(--text-muted); }
+  select, input {
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+
+  .table-container {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; text-align: left; }
+  th, td { padding: 1rem; border-bottom: 1px solid var(--border); }
+  th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-muted); }
+  tr:last-child td { border-bottom: none; }
+  .json-data {
+    font-family: monospace;
+    font-size: 0.8rem;
+    background: rgba(0,0,0,0.3);
+    padding: 0.5rem;
+    border-radius: 4px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Tracker Dashboard</h1>
+  <div>
+    <button class="btn" onclick="exportJSON()">Export JSON</button>
+    <button class="btn" onclick="exportCSV()">Export CSV</button>
+    <button class="btn" onclick="logout()" style="background:var(--danger); margin-left:1rem;">Logout</button>
+  </div>
+</div>
+
+<div class="stats-grid" id="statsGrid">
+  <div class="stat-card"><h3>Total Sessions</h3><div class="value" id="totalSessions">-</div></div>
+  <div class="stat-card"><h3>Total Events</h3><div class="value" id="totalEvents">-</div></div>
+  <div class="stat-card"><h3>Latest Activity</h3><div class="value" id="latestActivity" style="font-size:1rem;">-</div></div>
+</div>
+
+<div class="filters">
+  <div class="filter-group">
+    <label>Event Type</label>
+    <select id="typeFilter" onchange="renderTable()">
+      <option value="">All Types</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>Session ID</label>
+    <select id="sessionFilter" onchange="renderTable()">
+      <option value="">All Sessions</option>
+    </select>
+  </div>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Session</th>
+        <th>Event Name</th>
+        <th>Data</th>
+      </tr>
+    </thead>
+    <tbody id="eventsBody">
+      <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  let allEvents = [];
+  let token = sessionStorage.getItem('adminToken');
+  
+  if (!token) {
+    token = prompt("Enter Admin Token:");
+    if (token) {
+      sessionStorage.setItem('adminToken', token);
+    } else {
+      document.body.innerHTML = '<h2>Access Denied</h2>';
+      throw new Error("No token");
+    }
+  }
+
+  async function fetchEvents() {
+    try {
+      const res = await fetch('/api/admin/events', {
+        headers: { 'x-admin-token': token }
+      });
+      if (!res.ok) {
+        if (res.status === 401) {
+          sessionStorage.removeItem('adminToken');
+          alert("Invalid Token. Please refresh.");
+          document.body.innerHTML = '<h2>Unauthorized</h2>';
+          return;
+        }
+        throw new Error('Failed to fetch');
+      }
+      const data = await res.json();
+      allEvents = data.events;
+      populateFilters();
+      updateStats();
+      renderTable();
+    } catch (err) {
+      console.error(err);
+      alert("Error loading events.");
+    }
+  }
+
+  function updateStats() {
+    document.getElementById('totalEvents').textContent = allEvents.length;
+    const sessions = new Set(allEvents.map(e => e.session_id));
+    document.getElementById('totalSessions').textContent = sessions.size;
+    if (allEvents.length > 0) {
+      document.getElementById('latestActivity').textContent = new Date(allEvents[0].server_timestamp).toLocaleString();
+    }
+  }
+
+  function populateFilters() {
+    const types = [...new Set(allEvents.map(e => e.event_name))].sort();
+    const sessions = [...new Set(allEvents.map(e => e.session_id))];
+    
+    const typeSelect = document.getElementById('typeFilter');
+    types.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t; opt.textContent = t;
+      typeSelect.appendChild(opt);
+    });
+
+    const sessionSelect = document.getElementById('sessionFilter');
+    sessions.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s.substring(0,8) + '...';
+      sessionSelect.appendChild(opt);
+    });
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('eventsBody');
+    const typeF = document.getElementById('typeFilter').value;
+    const sessionF = document.getElementById('sessionFilter').value;
+    
+    let filtered = allEvents;
+    if (typeF) filtered = filtered.filter(e => e.event_name === typeF);
+    if (sessionF) filtered = filtered.filter(e => e.session_id === sessionF);
+
+    tbody.innerHTML = '';
+    if (filtered.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No events found.</td></tr>';
+      return;
+    }
+
+    filtered.forEach(e => {
+      const tr = document.createElement('tr');
+      const time = new Date(e.server_timestamp).toLocaleString();
+      let dataHtml = '';
+      if (e.event_data) {
+        try {
+          const parsed = JSON.parse(e.event_data);
+          dataHtml = `<div class="json-data">${JSON.stringify(parsed, null, 2)}</div>`;
+        } catch(err) {
+          dataHtml = e.event_data;
+        }
+      }
+
+      tr.innerHTML = `
+        <td>${time}</td>
+        <td title="${e.session_id}">${e.session_id.substring(0,8)}...</td>
+        <td><strong>${e.event_name}</strong></td>
+        <td>${dataHtml}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function exportJSON() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allEvents, null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "events.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
+  function exportCSV() {
+    if (allEvents.length === 0) return;
+    const keys = Object.keys(allEvents[0]);
+    let csv = keys.join(',') + '\n';
+    allEvents.forEach(e => {
+      csv += keys.map(k => {
+        let val = e[k];
+        if (typeof val === 'string') val = val.replace(/"/g, '""');
+        return `"${val}"`;
+      }).join(',') + '\n';
+    });
+    const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+    const a = document.createElement('a');
+    a.href = dataStr;
+    a.download = 'events.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  function logout() {
+    sessionStorage.removeItem('adminToken');
+    window.location.reload();
+  }
+
+  fetchEvents();
+</script>
+</body>
+</html>
