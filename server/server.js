@@ -18,12 +18,16 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.post('/api/events', (req, res) => {
     const event = req.body;
     const userAgent = req.headers['user-agent'] || null;
+    let ipAddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
+    if (ipAddress && ipAddress.includes(',')) {
+        ipAddress = ipAddress.split(',')[0].trim();
+    }
 
     if (!event || !event.session_id || !event.event_name) {
         return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    dbModule.insertEvent(event, userAgent, (err, id) => {
+    dbModule.insertEvent(event, userAgent, ipAddress, (err, id) => {
         if (err) {
             console.error('Error inserting event:', err);
             return res.status(500).json({ error: 'Internal server error' });

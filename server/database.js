@@ -25,6 +25,7 @@ async function initDb() {
     `;
     try {
         await pool.query(createTableQuery);
+        await pool.query(`ALTER TABLE events ADD COLUMN IF NOT EXISTS ip_address TEXT;`);
         console.log('Events table ready.');
     } catch (err) {
         console.error('Error creating events table:', err.message);
@@ -34,18 +35,18 @@ async function initDb() {
 // Call initDb when database module is loaded
 initDb();
 
-function insertEvent(event, userAgent, callback) {
+function insertEvent(event, userAgent, ipAddress, callback) {
     const { session_id, event_name, data, timestamp } = event;
     const serverTimestamp = Date.now();
     const eventDataString = data ? JSON.stringify(data) : null;
 
     const query = `
-        INSERT INTO events (session_id, event_name, event_data, client_timestamp, server_timestamp, user_agent)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        INSERT INTO events (session_id, event_name, event_data, client_timestamp, server_timestamp, user_agent, ip_address)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING id
     `;
 
-    pool.query(query, [session_id, event_name, eventDataString, timestamp, serverTimestamp, userAgent], (err, res) => {
+    pool.query(query, [session_id, event_name, eventDataString, timestamp, serverTimestamp, userAgent, ipAddress], (err, res) => {
         if (callback) {
             callback(err, res && res.rows[0] ? res.rows[0].id : null);
         }

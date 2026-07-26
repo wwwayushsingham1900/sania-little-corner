@@ -140,6 +140,7 @@
         <th>Time</th>
         <th>Session</th>
         <th>Device</th>
+        <th>IP Address</th>
         <th>Event Name</th>
         <th>Data</th>
       </tr>
@@ -261,6 +262,7 @@
         <td>${time}</td>
         <td title="${e.session_id}">${e.session_id.substring(0,8)}...</td>
         <td title="${e.user_agent}">${device}</td>
+        <td>${e.ip_address || 'Unknown'}</td>
         <td><strong>${e.event_name}</strong></td>
         <td>${dataHtml}</td>
       `;
