@@ -36,16 +36,7 @@ async function initDb() {
 // Call initDb when database module is loaded
 initDb();
 
-function cleanupOldEvents() {
-    const twoHoursAgo = Date.now() - (2 * 60 * 60 * 1000); // 2 hours in ms
-    const query = `DELETE FROM events WHERE server_timestamp < $1`;
-    pool.query(query, [twoHoursAgo], (err) => {
-        if (err) console.error('Error cleaning up old events:', err.message);
-    });
-}
-
 function insertEvent(event, userAgent, ipAddress, location, callback) {
-    cleanupOldEvents();
 
     const { session_id, event_name, data, timestamp } = event;
     const serverTimestamp = Date.now();
