@@ -3255,6 +3255,16 @@
         btn.disabled = true;
         btn.innerHTML = 'sending...';
 
+        // OPTION 2: OFFLINE SMS FALLBACK
+        // If she has absolutely no internet, fallback to native SMS immediately
+        if (!navigator.onLine) {
+          btn.innerHTML = 'opening messages...';
+          // Replace +910000000000 with your actual phone number (including country code)
+          window.location.href = "sms:+910000000000?&body=Hey Polar Bear, I really need you right now.";
+          setTimeout(() => { btn.innerHTML = 'send a signal 🐻‍❄️'; btn.disabled = false; }, 3000);
+          return;
+        }
+
         try {
           const response = await fetch('/api/ping', {
             method: 'POST',
@@ -3271,9 +3281,11 @@
             btn.disabled = false;
           }
         } catch (e) {
-          console.error('Error sending ping:', e);
-          btn.innerHTML = 'failed to send. try again.';
-          btn.disabled = false;
+          // If the internet is spotty and the request fails, fallback to SMS
+          console.error('Error sending ping, falling back to SMS:', e);
+          btn.innerHTML = 'opening messages...';
+          window.location.href = "sms:+910000000000?&body=Hey Polar Bear, I really need you right now.";
+          setTimeout(() => { btn.innerHTML = 'send a signal 🐻‍❄️'; btn.disabled = false; }, 3000);
         }
       };
 
