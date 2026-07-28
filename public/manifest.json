@@ -1,0 +1,16 @@
+{
+  "name": "Sania's Little Corner",
+  "short_name": "Sania",
+  "description": "Your little corner is still here.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#120f13",
+  "theme_color": "#1a151b",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%A8%3C/text%3E%3C/svg%3E",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ]
+}
