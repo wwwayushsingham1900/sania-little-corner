@@ -66,6 +66,55 @@ app.get('/api/admin/events', (req, res) => {
     });
 });
 
+let telegramChatId = process.env.TELEGRAM_CHAT_ID || null;
+
+app.post('/api/ping', async (req, res) => {
+    const token = process.env.TELEGRAM_BOT_TOKEN;
+    if (!token) {
+        return res.status(500).json({ error: 'Telegram bot token not configured' });
+    }
+
+    try {
+        if (!telegramChatId) {
+            const updatesRes = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
+            const updatesData = await updatesRes.json();
+            if (updatesData.ok && updatesData.result.length > 0) {
+                const messageUpdate = updatesData.result.reverse().find(u => u.message && u.message.chat);
+                if (messageUpdate) {
+                    telegramChatId = messageUpdate.message.chat.id;
+                    console.log("Found Telegram Chat ID:", telegramChatId);
+                }
+            }
+        }
+
+        if (!telegramChatId) {
+            console.error("Could not determine Telegram Chat ID.");
+            return res.status(500).json({ error: 'Could not determine Telegram Chat ID. Please send a message to the bot first.' });
+        }
+
+        const message = "🐻‍❄️🚨 Sania just sent a silent ping from the tracker app. She might need you right now.";
+        const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: telegramChatId,
+                text: message
+            })
+        });
+
+        const sendData = await sendRes.json();
+        if (sendData.ok) {
+            res.json({ success: true });
+        } else {
+            console.error('Telegram send failed:', sendData);
+            res.status(500).json({ error: 'Failed to send message' });
+        }
+    } catch (e) {
+        console.error('Error sending silent ping:', e);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // Fallback for missing routes
 app.use((req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));

@@ -1926,6 +1926,13 @@
         </div>
         <button class="trope-btn" id="tropeBtn">open a little pause</button>
       </div>
+      <div class="card fade-in-up" style="animation-delay: 0.4s; text-align: center; border-color: rgba(189, 44, 76, 0.4); background: rgba(189, 44, 76, 0.05);">
+        <p class="chapter-tag" style="color: var(--crimson);">if breathing isn't enough</p>
+        <h2 style="color: var(--crimson);">i'm right here.</h2>
+        <p class="lead">tap the button below, and i will be there.</p>
+        <button id="silentPingBtn" class="primary-btn" onclick="sendSilentPing()" style="background: var(--crimson); width: 100%; border-radius: 12px; margin-top: 1rem; box-shadow: 0 4px 15px rgba(189, 44, 76, 0.3);">send a signal 🐻‍❄️</button>
+        <p id="pingStatus" style="display:none; margin-top: 1rem; font-style: italic; color: var(--rose);">Signal sent. I'm on my way in spirit, and I'll text you soon.</p>
+      </div>
 
       <div class="card">
         <p class="chapter-tag">say something</p>
@@ -3183,6 +3190,42 @@
 
       // Initial render of covers on page load
       renderMoodboardCovers();
+
+      // Initial render of covers on page load
+      renderMoodboardCovers();
+
+      // --- SILENT PING LOGIC ---
+      window.sendSilentPing = async function() {
+        const btn = document.getElementById('silentPingBtn');
+        const status = document.getElementById('pingStatus');
+        
+        btn.disabled = true;
+        btn.innerHTML = 'sending...';
+        btn.style.opacity = '0.7';
+
+        try {
+          const response = await fetch('/api/ping', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          
+          if (response.ok) {
+            btn.style.display = 'none';
+            status.style.display = 'block';
+          } else {
+            const data = await response.json();
+            console.error('Ping failed:', data.error);
+            btn.innerHTML = 'failed to send. try again.';
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          }
+        } catch (e) {
+          console.error('Error sending ping:', e);
+          btn.innerHTML = 'failed to send. try again.';
+          btn.disabled = false;
+          btn.style.opacity = '1';
+        }
+      };
 
     </script>
   </body>
