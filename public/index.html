@@ -55,6 +55,8 @@
     body {
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     body {
@@ -66,23 +68,23 @@
         radial-gradient(circle at 50% 95%, var(--grad-3) 0%, transparent 50%),
         var(--ink);
       color: var(--text-primary);
-      display: flex;
-      justify-content: center;
       overflow-x: hidden;
     }
 
     .page {
       width: 100%;
       max-width: 480px;
+      margin: 0 auto;
       min-height: 100vh;
-      padding: 2.2rem 1.4rem calc(5.5rem + env(safe-area-inset-bottom, 0px));
+      /* Increased bottom padding significantly to clear bottom-nav */
+      padding: 2.2rem 1.4rem calc(8rem + env(safe-area-inset-bottom, 0px));
       position: relative;
     }
 
     @media (min-width:600px) {
       .page {
         max-width: 560px;
-        padding: 3rem 2rem calc(6rem + env(safe-area-inset-bottom, 0px));
+        padding: 3rem 2rem calc(9rem + env(safe-area-inset-bottom, 0px));
       }
     }
 
@@ -224,6 +226,7 @@
       font-size: 1.35rem;
       margin: 0 0 0.5rem;
       color: var(--text-primary);
+      word-wrap: break-word;
     }
 
     .card p.lead {
@@ -257,7 +260,8 @@
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      text-align: center;
       gap: 0.8rem;
       cursor: pointer;
       background: rgba(43, 23, 29, 0.4);
@@ -1291,6 +1295,8 @@
 
     #contentWrap {
       display: none;
+      width: 100%;
+      overflow-x: hidden;
     }
 
     #contentWrap.show {
