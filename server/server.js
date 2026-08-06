@@ -3,13 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const dbModule = require('./database');
+const FormData = require('form-data');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'secret_token';
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '../public')));
@@ -118,6 +119,60 @@ app.post('/api/ping', async (req, res) => {
 // Fallback for missing routes
 app.use((req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+// Send Voice Ping
+app.post('/api/voice-ping', async (req, res) => {
+    try {
+        const { audioBase64 } = req.body;
+        if (!audioBase64) return res.status(400).json({ error: 'No audio data provided' });
+
+        const token = process.env.TELEGRAM_BOT_TOKEN;
+        if (!token) return res.status(500).json({ error: 'Bot token not configured' });
+
+        let telegramChatId = process.env.TELEGRAM_CHAT_ID;
+        if (!telegramChatId) {
+            const updatesRes = await fetch(`https://api.telegram.org/bot${token}/getUpdates`);
+            const updatesData = await updatesRes.json();
+            if (updatesData.ok && updatesData.result.length > 0) {
+                const message = updatesData.result.find(u => u.message && u.message.chat);
+                if (message) telegramChatId = message.message.chat.id;
+            }
+        }
+
+        if (!telegramChatId) return res.status(500).json({ error: 'Could not determine Chat ID' });
+
+        // Parse Base64
+        const matches = audioBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+        if (!matches || matches.length !== 3) {
+            return res.status(400).json({ error: 'Invalid base64 string' });
+        }
+
+        const type = matches[1];
+        const buffer = Buffer.from(matches[2], 'base64');
+
+        const form = new FormData();
+        form.append('chat_id', telegramChatId);
+        form.append('voice', buffer, { filename: 'voice-note.webm', contentType: type });
+        form.append('caption', '🎙️ Sania sent you a voice note from the app!');
+
+        const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendVoice`, {
+            method: 'POST',
+            headers: form.getHeaders(),
+            body: form
+        });
+
+        const sendData = await sendRes.json();
+        if (sendData.ok) {
+            res.json({ success: true });
+        } else {
+            console.error('Telegram sendVoice failed:', sendData);
+            res.status(500).json({ error: 'Failed to send voice message' });
+        }
+    } catch (e) {
+        console.error('Error sending voice ping:', e);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
 if (require.main === module) {

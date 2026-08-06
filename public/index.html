@@ -1777,6 +1777,72 @@
       border-color: var(--crimson);
     }
 
+    /* Voice Recorder & Countdown */
+    .countdown-card {
+      text-align: center;
+      background: var(--ink-card-2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .countdown-numbers {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+    .cd-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .cd-val {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--rose);
+      line-height: 1;
+    }
+    .cd-lbl {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 0.5rem;
+    }
+    .record-btn {
+      background: var(--ink-card-2);
+      border: 2px solid var(--rose);
+      color: var(--rose);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 1.5rem auto;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(240, 168, 196, 0.2);
+    }
+    .record-btn.recording {
+      background: var(--crimson);
+      border-color: var(--crimson);
+      color: white;
+      animation: pulse-record 1.5s infinite;
+      box-shadow: 0 0 20px rgba(220, 20, 60, 0.6);
+    }
+    @keyframes pulse-record {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
     .modal-results {
       flex: 1;
       overflow-y: auto;
@@ -2254,6 +2320,14 @@
             onclick="sendSilentPing('silentPingBtnFeel', 'pingStatusFeel')">send a signal 🐻‍❄️</button>
           <p id="pingStatusFeel" style="display:none; margin-top: 1rem; font-style: italic; color: var(--rose);">Signal
             sent. I'm on my way in spirit, and I'll text you soon.</p>
+        </div>
+
+        <div class="card fade-in-up" style="animation-delay: 0.5s; text-align: center;">
+          <p class="chapter-tag">whispers</p>
+          <h2>tell me everything</h2>
+          <p class="lead">hold the button to record your voice. when you let go, it goes straight to me.</p>
+          <div class="record-btn" id="recordBtn">🎙️</div>
+          <p id="recordStatus" style="font-style: italic; color: var(--rose); margin-top: 0.5rem;">Tap & hold to record</p>
         </div>
 
         <div class="card">
@@ -3593,6 +3667,94 @@
         setTimeout(() => { btn.innerHTML = 'send a signal 🐻‍❄️'; btn.disabled = false; }, 3000);
       }
     };
+
+    // --- COUNTDOWN TIMER LOGIC ---
+    const targetDate = new Date("2026-09-06T18:00:00").getTime(); // Change this date!
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      if (distance < 0) return;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const daysEl = document.getElementById("cd-days");
+      if(daysEl) {
+        daysEl.innerText = days.toString().padStart(2, '0');
+        document.getElementById("cd-hours").innerText = hours.toString().padStart(2, '0');
+        document.getElementById("cd-mins").innerText = minutes.toString().padStart(2, '0');
+      }
+    }, 1000);
+
+    // --- VOICE RECORDER (WHISPERS) LOGIC ---
+    let mediaRecorder;
+    let audioChunks = [];
+    const recordBtn = document.getElementById('recordBtn');
+    const recordStatus = document.getElementById('recordStatus');
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Use pointer events to handle touch and mouse
+      recordBtn.addEventListener('pointerdown', async (e) => {
+        e.preventDefault();
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+          
+          mediaRecorder.addEventListener('dataavailable', event => {
+            audioChunks.push(event.data);
+          });
+
+          mediaRecorder.addEventListener('stop', async () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+            stream.getTracks().forEach(track => track.stop()); // Stop mic
+            
+            // Convert Blob to Base64
+            const reader = new FileReader();
+            reader.readAsDataURL(audioBlob);
+            reader.onloadend = async () => {
+              const base64Audio = reader.result;
+              recordStatus.innerText = 'sending to polar bear...';
+              
+              try {
+                const response = await fetch('/api/voice-ping', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ audioBase64: base64Audio })
+                });
+                
+                if (response.ok) {
+                  recordStatus.innerText = 'voice note sent! 💌';
+                  setTimeout(() => recordStatus.innerText = 'Tap & hold to record', 3000);
+                } else {
+                  recordStatus.innerText = 'failed to send.';
+                }
+              } catch (err) {
+                recordStatus.innerText = 'network error.';
+              }
+            };
+          });
+
+          mediaRecorder.start();
+          recordBtn.classList.add('recording');
+          recordStatus.innerText = 'recording... (let go to send)';
+        } catch (err) {
+          console.error("Mic access denied", err);
+          recordStatus.innerText = 'microphone access denied.';
+        }
+      });
+
+      recordBtn.addEventListener('pointerup', stopRecording);
+      recordBtn.addEventListener('pointerleave', stopRecording);
+      
+      function stopRecording(e) {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+          mediaRecorder.stop();
+          recordBtn.classList.remove('recording');
+        }
+      }
+    } else {
+      if(recordStatus) recordStatus.innerText = 'voice recording not supported on this browser.';
+    }
 
     // --- SERVICE WORKER REGISTRATION ---
     if ('serviceWorker' in navigator) {
