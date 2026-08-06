@@ -1782,17 +1782,17 @@
       text-align: center;
       background: var(--ink-card-2);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 1.5rem;
-      border-radius: 16px;
-      margin-bottom: 1.5rem;
+      padding: 1.2rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
       position: relative;
       overflow: hidden;
     }
     .countdown-numbers {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
+      gap: 1rem;
+      margin-top: 0.8rem;
     }
     .cd-box {
       display: flex;
@@ -1801,7 +1801,7 @@
     }
     .cd-val {
       font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
+      font-size: 1.8rem;
       font-weight: 700;
       color: var(--rose);
       line-height: 1;
@@ -2197,11 +2197,12 @@
 
         <div class="countdown-card fade-in-up" style="animation-delay: 0.15s;">
           <p class="chapter-tag">counting the moments</p>
-          <h2 style="font-size: 1.5rem; margin-top: 0.5rem; color: var(--text-primary);">Until I see you next</h2>
+          <h2 style="font-size: 1.4rem; margin-top: 0.5rem; color: var(--text-primary);">Until I see you next</h2>
           <div class="countdown-numbers">
             <div class="cd-box"><span class="cd-val" id="cd-days">00</span><span class="cd-lbl">days</span></div>
             <div class="cd-box"><span class="cd-val" id="cd-hours">00</span><span class="cd-lbl">hours</span></div>
             <div class="cd-box"><span class="cd-val" id="cd-mins">00</span><span class="cd-lbl">mins</span></div>
+            <div class="cd-box"><span class="cd-val" id="cd-secs">00</span><span class="cd-lbl">secs</span></div>
           </div>
         </div>
 
@@ -3687,11 +3688,13 @@
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
       const daysEl = document.getElementById("cd-days");
       if(daysEl) {
         daysEl.innerText = days.toString().padStart(2, '0');
         document.getElementById("cd-hours").innerText = hours.toString().padStart(2, '0');
         document.getElementById("cd-mins").innerText = minutes.toString().padStart(2, '0');
+        document.getElementById("cd-secs").innerText = seconds.toString().padStart(2, '0');
       }
     }, 1000);
 
