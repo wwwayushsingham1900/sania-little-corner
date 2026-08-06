@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sania-cache-v2';
+const CACHE_NAME = 'sania-cache-v3';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -19,34 +19,26 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Pass through API requests without caching
+  if (event.request.url.includes('/api/')) {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
+        // Network success: update cache and return response
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
+          });
         }
-        
-        return fetch(event.request).then(
-          function(response) {
-            if(!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
-
-            var responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then(function(cache) {
-                // Don't cache API requests
-                if (!event.request.url.includes('/api/')) {
-                  cache.put(event.request, responseToCache);
-                }
-              });
-
-            return response;
-          }
-        ).catch(function() {
-          // Network failed and not in cache
-        });
+        return response;
+      })
+      .catch(() => {
+        // Network failure (offline): fallback to cache
+        return caches.match(event.request);
       })
   );
 });

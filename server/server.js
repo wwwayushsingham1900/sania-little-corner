@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const dbModule = require('./database');
-const FormData = require('form-data');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -150,15 +149,15 @@ app.post('/api/voice-ping', async (req, res) => {
 
         const type = matches[1];
         const buffer = Buffer.from(matches[2], 'base64');
+        const blob = new Blob([buffer], { type: type });
 
-        const form = new FormData();
+        const form = new FormData(); // Native FormData
         form.append('chat_id', telegramChatId);
-        form.append('voice', buffer, { filename: 'voice-note.webm', contentType: type });
+        form.append('voice', blob, 'voice-note.webm');
         form.append('caption', '🎙️ Sania sent you a voice note from the app!');
 
         const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendVoice`, {
             method: 'POST',
-            headers: form.getHeaders(),
             body: form
         });
 
