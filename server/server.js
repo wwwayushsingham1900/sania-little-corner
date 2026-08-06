@@ -149,27 +149,26 @@ app.post('/api/voice-ping', async (req, res) => {
 
         const type = matches[1];
         const buffer = Buffer.from(matches[2], 'base64');
-        const blob = new Blob([buffer], { type: type });
+        const FormData = require('form-data');
+        const axios = require('axios');
 
-        const form = new FormData(); // Native FormData
+        const form = new FormData();
         form.append('chat_id', telegramChatId);
-        form.append('voice', blob, 'voice-note.webm');
+        form.append('voice', buffer, { filename: 'voice-note.ogg', contentType: type });
         form.append('caption', '🎙️ Sania sent you a voice note from the app!');
 
-        const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendVoice`, {
-            method: 'POST',
-            body: form
+        const sendRes = await axios.post(`https://api.telegram.org/bot${token}/sendVoice`, form, {
+            headers: form.getHeaders()
         });
 
-        const sendData = await sendRes.json();
-        if (sendData.ok) {
+        if (sendRes.data && sendRes.data.ok) {
             res.json({ success: true });
         } else {
-            console.error('Telegram sendVoice failed:', sendData);
+            console.error('Telegram sendVoice failed:', sendRes.data);
             res.status(500).json({ error: 'Failed to send voice message' });
         }
     } catch (e) {
-        console.error('Error sending voice ping:', e);
+        console.error('Error sending voice ping:', e.response ? e.response.data : e.message);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
