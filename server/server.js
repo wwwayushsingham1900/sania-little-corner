@@ -154,17 +154,17 @@ app.post('/api/voice-ping', async (req, res) => {
 
         const form = new FormData();
         form.append('chat_id', telegramChatId);
-        form.append('voice', buffer, { filename: 'voice-note.ogg', contentType: type });
+        form.append('document', buffer, { filename: 'voice-note.webm', contentType: type });
         form.append('caption', '🎙️ Sania sent you a voice note from the app!');
 
-        const sendRes = await axios.post(`https://api.telegram.org/bot${token}/sendVoice`, form, {
+        const sendRes = await axios.post(`https://api.telegram.org/bot${token}/sendDocument`, form, {
             headers: form.getHeaders()
         });
 
         if (sendRes.data && sendRes.data.ok) {
             res.json({ success: true });
         } else {
-            console.error('Telegram sendVoice failed:', sendRes.data);
+            console.error('Telegram sendDocument failed:', sendRes.data);
             res.status(500).json({ error: 'Failed to send voice message' });
         }
     } catch (e) {
