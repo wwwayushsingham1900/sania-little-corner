@@ -1777,6 +1777,64 @@
       border-color: var(--crimson);
     }
 
+    /* Open When Envelopes */
+    .envelope-container {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scroll-snap-type: x mandatory;
+    }
+    .envelope-wrapper {
+      flex: 0 0 auto;
+      scroll-snap-align: center;
+      width: 200px;
+      height: 140px;
+      position: relative;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .envelope {
+      width: 100%;
+      height: 100%;
+      background: var(--ink-card-2);
+      border: 1px solid var(--crimson);
+      border-radius: 8px;
+      position: absolute;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease, background 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(220, 20, 60, 0.1);
+    }
+    .envelope:active {
+      transform: scale(0.95);
+    }
+    .envelope-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--rose);
+      margin: 0;
+    }
+    .envelope-seal {
+      width: 30px;
+      height: 30px;
+      background: var(--crimson);
+      border-radius: 50%;
+      position: absolute;
+      top: -15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
     /* Voice Recorder & Countdown */
     .countdown-card {
       text-align: center;
@@ -2452,6 +2510,32 @@
           <p class="subtitle">because one more chapter is never really one more.</p>
           <div class="divider" style="background: rgba(189, 44, 76, 0.3);"></div>
         </div>
+        <div class="card fade-in-up" style="animation-delay: 0.05s;">
+          <p class="chapter-tag" style="color: var(--crimson);">Open When...</p>
+          <h2>A vault of letters just for you.</h2>
+          <p class="lead">Tap an envelope when you need it.</p>
+          
+          <div class="envelope-container">
+            <div class="envelope-wrapper" onclick="openLetter('miss-me')">
+              <div class="envelope" id="env-miss-me">
+                <div class="envelope-seal">💌</div>
+                <h3 class="envelope-title">Open when you miss me</h3>
+              </div>
+            </div>
+            <div class="envelope-wrapper" onclick="openLetter('cant-sleep')">
+              <div class="envelope" id="env-cant-sleep">
+                <div class="envelope-seal">💌</div>
+                <h3 class="envelope-title">Open when you can't sleep</h3>
+              </div>
+            </div>
+            <div class="envelope-wrapper" onclick="openLetter('overwhelmed')">
+              <div class="envelope" id="env-overwhelmed">
+                <div class="envelope-seal">💌</div>
+                <h3 class="envelope-title">Open when it's all too much</h3>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="card fade-in-up"
           style="animation-delay: 0.1s; border-color: rgba(189, 44, 76, 0.2); background: rgba(0,0,0,0.2);">
@@ -2560,6 +2644,12 @@
           <h1 class="title">Every version of <span class="accent">you.</span></h1>
           <p class="subtitle">You don't have one aesthetic. You have moods.</p>
           <div class="divider"></div>
+        </div>
+
+        <div class="card fade-in-up" style="animation-delay: 0.05s; text-align: center; border-color: rgba(240, 168, 196, 0.4); cursor: pointer;" onclick="window.location.href='scrapbook.html'">
+          <p class="chapter-tag" style="color: var(--rose-deep);">memories</p>
+          <h2 style="color: var(--rose-deep);">Our Digital Scrapbook 📖</h2>
+          <p class="lead">Tap to open a beautiful book of our favorite moments.</p>
         </div>
 
         <div class="card fade-in-up" style="animation-delay: 0.1s; text-align: center;">
@@ -2704,6 +2794,18 @@
         to be continued, always
       </footer>
 
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="letterModalOverlay" onclick="if(event.target===this) closeLetterModal()">
+    <div class="modal-content" style="max-width: 400px; text-align: center; border-radius: 12px;">
+      <div class="modal-header" style="justify-content: center; position: relative;">
+        <h2 class="modal-title" id="letterModalTitle" style="color: var(--rose-deep); font-family: 'Playfair Display', serif; font-size: 1.5rem;">Letter</h2>
+        <button class="modal-close" style="position: absolute; right: 0; top: -5px;" onclick="closeLetterModal()">×</button>
+      </div>
+      <div id="letterModalBody" style="font-family: 'Quicksand', sans-serif; font-size: 1.05rem; line-height: 1.8; color: var(--text-primary); text-align: left; white-space: pre-line; margin-top: 1rem; padding: 0.5rem; background: rgba(255,255,255,0.03); border-radius: 8px;">
+        <!-- letter content -->
+      </div>
     </div>
   </div>
 
@@ -3767,6 +3869,39 @@
       }
     } else {
       if(recordStatus) recordStatus.innerText = 'voice recording not supported on this browser.';
+    }
+
+    // --- OPEN WHEN LETTERS ---
+    const letters = {
+      'miss-me': {
+        title: "Open when you miss me",
+        content: "My love,\n\nEven when I am not physically there, I am always with you. Close your eyes, take a deep breath, and imagine my arms wrapped tightly around you. I am counting down the seconds until I can see you again. You are the best thing that has ever happened to me.\n\nLove always,\nAyush"
+      },
+      'cant-sleep': {
+        title: "Open when you can't sleep",
+        content: "Hey beautiful,\n\nI know the nights can be long and your mind is probably racing right now. But you are safe, you are loved, and tomorrow is a brand new day. Try to relax your shoulders, take a slow breath in, and let it go. I'm right here with you in spirit. Sweet dreams, my angel."
+      },
+      'overwhelmed': {
+        title: "Open when it's all too much",
+        content: "Take a pause.\n\nYou don't have to carry the weight of the whole world today. It's okay to step back. It's okay to just breathe. I am so incredibly proud of you, not just for what you accomplish, but for who you are. You are enough, exactly as you are right now.\n\nI believe in you."
+      }
+    };
+
+    function openLetter(id) {
+      const letter = letters[id];
+      if(!letter) return;
+      document.getElementById('env-' + id).classList.add('open');
+      setTimeout(() => {
+        document.getElementById('letterModalTitle').innerText = letter.title;
+        document.getElementById('letterModalBody').innerText = letter.content;
+        document.getElementById('letterModalOverlay').classList.add('active');
+      }, 400); // Wait for envelope open animation
+    }
+
+    function closeLetterModal() {
+      document.getElementById('letterModalOverlay').classList.remove('active');
+      // Close all envelopes
+      document.querySelectorAll('.envelope.open').forEach(el => el.classList.remove('open'));
     }
 
     // --- SERVICE WORKER REGISTRATION ---

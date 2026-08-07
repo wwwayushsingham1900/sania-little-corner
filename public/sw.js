@@ -1,10 +1,11 @@
-const CACHE_NAME = 'sania-cache-v3';
+const CACHE_NAME = 'sania-cache-v4';
 const urlsToCache = [
   '/',
   '/index.html',
   '/games.html',
   '/polaroid.html',
   '/draw.html',
+  '/scrapbook.html',
   '/music.mp3',
   '/manifest.json'
 ];
