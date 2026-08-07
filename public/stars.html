@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A Universe For You</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #020111;
+      overflow: hidden;
+      font-family: 'Quicksand', sans-serif;
+      touch-action: none;
+    }
+    
+    #sky {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      z-index: 10;
+      padding: 10px;
+      transition: color 0.3s;
+    }
+    .back-btn:hover {
+      color: white;
+    }
+
+    .message-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 90%;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .message-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: white;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 10px #d495a6;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      margin: 0;
+    }
+    
+    .message-text.visible {
+      opacity: 1;
+    }
+    
+    .hint {
+      position: absolute;
+      bottom: 40px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      pointer-events: none;
+      animation: pulse 3s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-btn" onclick="window.location.href='index.html'">←</button>
+  
+  <canvas id="sky"></canvas>
+  
+  <div class="message-container">
+    <p id="starMessage" class="message-text"></p>
+  </div>
+  
+  <div class="hint">TAP ON THE BRIGHTEST STARS</div>
+
+  <script>
+    const canvas = document.getElementById('sky');
+    const ctx = canvas.getContext('2d');
+    
+    let width, height;
+    let stars = [];
+    
+    const messages = [
+      "Your laugh is my favorite sound.",
+      "I love the way your eyes light up.",
+      "You make my world so much brighter.",
+      "I am so lucky to have you.",
+      "Every moment with you is magic.",
+      "You are my safe space.",
+      "I fall for you more every day.",
+      "You are the best part of my life.",
+      "Even the stars are jealous of you.",
+      "I will always be right here for you."
+    ];
+    
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      initStars();
+    }
+    
+    window.addEventListener('resize', resize);
+    
+    class Star {
+      constructor(isInteractive = false) {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        
+        this.isInteractive = isInteractive;
+        
+        if (this.isInteractive) {
+          // Bright, clickable stars
+          this.size = Math.random() * 2 + 2;
+          this.maxAlpha = Math.random() * 0.4 + 0.6;
+          this.message = messages[Math.floor(Math.random() * messages.length)];
+        } else {
+          // Background dust
+          this.size = Math.random() * 1.5;
+          this.maxAlpha = Math.random() * 0.5 + 0.1;
+        }
+        
+        this.alpha = Math.random() * this.maxAlpha;
+        this.alphaChange = (Math.random() * 0.02 + 0.005) * (Math.random() < 0.5 ? 1 : -1);
+      }
+      
+      update() {
+        this.alpha += this.alphaChange;
+        if (this.alpha <= 0) {
+          this.alpha = 0;
+          this.alphaChange *= -1;
+        } else if (this.alpha >= this.maxAlpha) {
+          this.alpha = this.maxAlpha;
+          this.alphaChange *= -1;
+        }
+      }
+      
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        
+        if (this.isInteractive) {
+          ctx.fillStyle = `rgba(255, 240, 245, ${this.alpha})`;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = '#d495a6';
+        } else {
+          ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+          ctx.shadowBlur = 0;
+        }
+        
+        ctx.fill();
+      }
+      
+      checkClick(x, y) {
+        if (!this.isInteractive) return false;
+        // Increase hit box area for easier tapping on mobile
+        const hitRadius = 25; 
+        const dx = this.x - x;
+        const dy = this.y - y;
+        return (dx * dx + dy * dy) <= (hitRadius * hitRadius);
+      }
+    }
+    
+    function initStars() {
+      stars = [];
+      const numBackgroundStars = Math.floor((width * height) / 3000); // adjust density
+      const numInteractiveStars = 30; // 30 secret messages hidden in the sky
+      
+      for (let i = 0; i < numBackgroundStars; i++) {
+        stars.push(new Star(false));
+      }
+      
+      for (let i = 0; i < numInteractiveStars; i++) {
+        stars.push(new Star(true));
+      }
+    }
+    
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Draw gradient background
+      const grad = ctx.createLinearGradient(0, 0, 0, height);
+      grad.addColorStop(0, '#01000a');
+      grad.addColorStop(1, '#0b0824');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, width, height);
+      
+      stars.forEach(star => {
+        star.update();
+        star.draw();
+      });
+      
+      requestAnimationFrame(animate);
+    }
+    
+    let messageTimeout;
+    
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      for (let star of stars) {
+        if (star.checkClick(x, y)) {
+          showMessage(star.message);
+          
+          // Cool ripple effect on click
+          createRipple(star.x, star.y);
+          break;
+        }
+      }
+    });
+    
+    function showMessage(text) {
+      const msgEl = document.getElementById('starMessage');
+      msgEl.innerText = text;
+      
+      // Reset animation
+      msgEl.classList.remove('visible');
+      void msgEl.offsetWidth; // trigger reflow
+      
+      msgEl.classList.add('visible');
+      
+      clearTimeout(messageTimeout);
+      messageTimeout = setTimeout(() => {
+        msgEl.classList.remove('visible');
+      }, 4000);
+    }
+    
+    function createRipple(x, y) {
+      let radius = 2;
+      let alpha = 1;
+      
+      function drawRipple() {
+        if (alpha <= 0) return;
+        
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(212, 149, 166, ${alpha})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        radius += 2;
+        alpha -= 0.05;
+        
+        requestAnimationFrame(drawRipple);
+      }
+      
+      drawRipple();
+    }
+    
+    resize();
+    animate();
+  </script>
+</body>
+</html>
